@@ -1,0 +1,21 @@
+node_modules
+.next
+out
+*.tsbuildinfo
+next-env.d.ts
+
+# app state (persistencia de transfers, MVP)
+.data
+
+# env
+.env
+.env*.local
+
+# spike (código desechable Fase 0)
+spike/.env
+
+# docs internos (no se suben)
+docs/
+
+.DS_Store
+*.log

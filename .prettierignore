@@ -1,0 +1,10 @@
+# Generado desde el OpenAPI de BitGo — no formatear (ver npm run gen:bitgo).
+lib/bitgo/generated.ts
+
+# Artefactos y dependencias.
+.next/
+node_modules/
+package-lock.json
+
+# Spike desechable (Fase 0).
+spike/

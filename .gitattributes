@@ -1,0 +1,3 @@
+# El cliente OpenAPI de BitGo es generado (npm run gen:bitgo). Se versiona para
+# que el build funcione sin red, pero no debe ensuciar diffs ni estadísticas.
+lib/bitgo/generated.ts linguist-generated=true -diff
