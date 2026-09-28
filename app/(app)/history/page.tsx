@@ -72,7 +72,13 @@ export default function HistoryPage() {
 
       <div className="segmented" style={{ marginTop: 12 }} role="tablist">
         {(['all', 'income', 'expense'] as Segment[]).map((s) => (
-          <button key={s} role="tab" data-active={segment === s} onClick={() => setSegment(s)}>
+          <button
+            key={s}
+            role="tab"
+            aria-selected={segment === s}
+            data-active={segment === s}
+            onClick={() => setSegment(s)}
+          >
             {s === 'all' ? 'Todos' : s === 'income' ? 'Ingresos' : 'Gastos'}
           </button>
         ))}

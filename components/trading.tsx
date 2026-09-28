@@ -118,9 +118,18 @@ export function TradeRow({ trade }: { trade: TradeRecordView }) {
         </span>
         <span className="tx-sub">{when}</span>
       </span>
-      <span className="mono" style={{ fontWeight: 600, textAlign: 'right' }}>
-        +{formatMoneyValue(trade.received.value)} {recvSym}
-        <br />
+      <span
+        className="mono"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+          fontWeight: 600,
+        }}
+      >
+        <span>
+          +{formatMoneyValue(trade.received.value)} {recvSym}
+        </span>
         <span className="muted" style={{ fontSize: 11, fontWeight: 400 }}>
           −{formatMoneyValue(trade.paid.value)} {paidSym}
         </span>

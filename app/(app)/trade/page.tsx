@@ -2,7 +2,6 @@
 // Trading screen: Buy / Sell / Swap. REAL BitGo prices (level1), DEMO settlement
 // (visible badge). The quote is recomputed live as you type.
 import { Suspense, useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { AppHeader } from '@/components/AppHeader';
 import { AssetGlyph, Card, MockBadge } from '@/components/ui';
@@ -158,14 +157,9 @@ function TradeInner() {
   return (
     <>
       <AppHeader />
-      <div className="row-between" style={{ alignItems: 'baseline' }}>
-        <h1 className="screen-title" style={{ marginBottom: 8 }}>
-          Operar
-        </h1>
-        <Link href="/" className="link">
-          Cerrar
-        </Link>
-      </div>
+      <h1 className="screen-title" style={{ marginBottom: 8 }}>
+        Operar
+      </h1>
 
       <div style={{ marginBottom: 12 }}>
         <MockBadge>Precios reales de BitGo · liquidación simulada (testnet)</MockBadge>
@@ -183,7 +177,13 @@ function TradeInner() {
           {/* Buy / Sell / Swap tabs */}
           <div className="segmented" role="tablist">
             {(['buy', 'sell', 'swap'] as TradeSide[]).map((s) => (
-              <button key={s} role="tab" data-active={side === s} onClick={() => switchSide(s)}>
+              <button
+                key={s}
+                role="tab"
+                aria-selected={side === s}
+                data-active={side === s}
+                onClick={() => switchSide(s)}
+              >
                 {s === 'buy' ? 'Comprar' : s === 'sell' ? 'Vender' : 'Swap'}
               </button>
             ))}
@@ -248,13 +248,17 @@ function TradeInner() {
               onClick={submit}
               disabled={!canSubmit}
             >
-              {view === 'submitting'
-                ? 'Procesando…'
-                : side === 'buy'
-                  ? `Comprar ${assetOf(coin).symbol}`
-                  : side === 'sell'
-                    ? `Vender ${assetOf(coin).symbol}`
-                    : `Cambiar a ${assetOf(toCoin).symbol}`}
+              {view === 'submitting' ? (
+                <>
+                  <span className="spinner" /> Procesando…
+                </>
+              ) : side === 'buy' ? (
+                `Comprar ${assetOf(coin).symbol}`
+              ) : side === 'sell' ? (
+                `Vender ${assetOf(coin).symbol}`
+              ) : (
+                `Cambiar a ${assetOf(toCoin).symbol}`
+              )}
             </button>
           </div>
         </>
@@ -308,7 +312,7 @@ function QuoteLine({
   return (
     <div className="quote-line">
       {quoteError ? (
-        <span style={{ color: '#b91c1c' }}>{quoteError}</span>
+        <span style={{ color: 'var(--negative)' }}>{quoteError}</span>
       ) : !hasAmount ? (
         <span className="muted">Ingresá un monto para ver la cotización.</span>
       ) : quoting && !quote ? (
@@ -382,7 +386,12 @@ function ResultCard({
       <p className="muted">Falló al {outcome.step === 'quote' ? 'cotizar' : 'liquidar'}.</p>
       <pre
         className="mono"
-        style={{ whiteSpace: 'pre-wrap', color: '#b91c1c', fontSize: 12, margin: '8px 0 16px' }}
+        style={{
+          whiteSpace: 'pre-wrap',
+          color: 'var(--negative)',
+          fontSize: 12,
+          margin: '8px 0 16px',
+        }}
       >
         {outcome.message}
       </pre>

@@ -16,6 +16,36 @@ import { MarketList } from '@/components/trading';
 import { useApi } from '@/components/useApi';
 import type { PortfolioView, TransactionsView, ProductsView } from '@/components/types';
 
+const svg = (paths: string) => (
+  <svg
+    width="22"
+    height="22"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden
+    dangerouslySetInnerHTML={{ __html: paths }}
+  />
+);
+
+const HERO_ACTIONS: Array<{ href: string; label: string; icon: JSX.Element }> = [
+  { href: '/trade?side=buy', label: 'Comprar', icon: svg('<path d="M12 5v14"/><path d="M6 13l6 6 6-6"/>') },
+  { href: '/trade?side=sell', label: 'Vender', icon: svg('<path d="M12 19V5"/><path d="M6 11l6-6 6 6"/>') },
+  {
+    href: '/trade?side=swap',
+    label: 'Swap',
+    icon: svg('<path d="M7 8h13"/><path d="M17 4l4 4-4 4"/><path d="M17 16H4"/><path d="M7 12l-3 4 3 4"/>'),
+  },
+  {
+    href: '/transfer',
+    label: 'Transferir',
+    icon: svg('<path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/>'),
+  },
+];
+
 export default function DashboardPage() {
   const portfolio = useApi<PortfolioView>('/api/trading/portfolio');
   const market = useApi<ProductsView>('/api/trading/products');
@@ -47,22 +77,14 @@ export default function DashboardPage() {
           )}
         </Async>
 
-        {/* Trading actions + transfer */}
-        <div className="trade-actions">
-          <Link href="/trade?side=buy" className="btn btn-primary">
-            Comprar
-          </Link>
-          <Link href="/trade?side=sell" className="btn btn-secondary">
-            Vender
-          </Link>
-          <Link href="/trade?side=swap" className="btn btn-secondary">
-            Swap
-          </Link>
-        </div>
-        <div style={{ marginTop: 10 }}>
-          <Link href="/transfer" className="btn btn-secondary btn-block">
-            Transferir
-          </Link>
+        {/* Quick actions: el balance es el héroe, las acciones son pares tranquilos */}
+        <div className="hero-actions">
+          {HERO_ACTIONS.map((a) => (
+            <Link key={a.href} href={a.href} className="hero-action">
+              <span className="ha-icon">{a.icon}</span>
+              {a.label}
+            </Link>
+          ))}
         </div>
       </Card>
 
