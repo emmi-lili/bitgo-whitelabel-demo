@@ -4,11 +4,12 @@
 // con el shell visual de Inicio: AppHeader + cards + botones del design system.
 import { useState } from 'react';
 import Link from 'next/link';
-import { AppHeader } from '@/components/AppHeader';
-import { Card, SectionHeader } from '@/components/ui';
-import { fetchJson } from '@/components/useApi';
+import { Card } from '@/components/ui';
+import { fetchJson, useApi } from '@/components/useApi';
 import { sanitizeDecimalInput } from '@/lib/domain/money';
 import type { TransferOutcome, TransferStatusResult } from '@/lib/domain/transfer';
+
+type Destination = { id: string; label: string };
 
 type View =
   | { kind: 'form' }
@@ -23,10 +24,13 @@ function newSeq(): string {
 
 export default function TransferPage() {
   const [destinationWalletId, setDestination] = useState('');
+  const [manual, setManual] = useState(false);
   const [amount, setAmount] = useState('');
   const [comment, setComment] = useState('');
   const [sequenceId, setSequenceId] = useState<string>(newSeq());
   const [view, setView] = useState<View>({ kind: 'form' });
+
+  const destinations = useApi<{ destinations: Destination[] }>('/api/destinations');
 
   const submitting = view.kind === 'sending' || view.kind === 'verifying';
 
@@ -81,15 +85,14 @@ export default function TransferPage() {
 
   return (
     <>
-      <AppHeader />
-      <div className="row-between" style={{ alignItems: 'baseline' }}>
-        <h1 className="screen-title" style={{ marginBottom: 8 }}>
-          Transferir
-        </h1>
-        <Link href="/" className="link">
-          Cerrar
+      <div className="header">
+        <Link href="/" className="link" aria-label="Volver">
+          ← Volver
         </Link>
       </div>
+      <h1 className="screen-title" style={{ marginBottom: 8 }}>
+        Transferir
+      </h1>
 
       {view.kind === 'form' && (
         <>
@@ -106,17 +109,66 @@ export default function TransferPage() {
               />
             </div>
 
+            {/* Destinatario: lista corta conocida, no campo libre (SCREENS §1.1). */}
             <div className="field">
               <span className="label">Para</span>
-              <input
-                className="field-control mono"
-                value={destinationWalletId}
-                onChange={(e) => setDestination(e.target.value)}
-                placeholder="ID de la cuenta destino"
-                aria-label="Cuenta destino"
-                autoComplete="off"
-                spellCheck={false}
-              />
+              <div className="recipients">
+                {destinations.data?.destinations.map((d) => {
+                  const active = !manual && destinationWalletId === d.id;
+                  return (
+                    <button
+                      key={d.id}
+                      type="button"
+                      className="recipient"
+                      data-active={active}
+                      aria-pressed={active}
+                      onClick={() => {
+                        setManual(false);
+                        setDestination(d.id);
+                      }}
+                    >
+                      <span className="recipient-avatar" aria-hidden>
+                        {d.label.slice(0, 1)}
+                      </span>
+                      <span className="recipient-body">
+                        <span className="recipient-name">{d.label}</span>
+                        <span className="recipient-id mono">{d.id.slice(0, 12)}…</span>
+                      </span>
+                      {active && <span aria-hidden>✓</span>}
+                    </button>
+                  );
+                })}
+                <button
+                  type="button"
+                  className="recipient"
+                  data-active={manual}
+                  aria-pressed={manual}
+                  onClick={() => {
+                    setManual(true);
+                    setDestination('');
+                  }}
+                >
+                  <span className="recipient-avatar" aria-hidden>
+                    +
+                  </span>
+                  <span className="recipient-body">
+                    <span className="recipient-name">Otra cuenta</span>
+                    <span className="recipient-id muted">Pegar un ID de cuenta destino</span>
+                  </span>
+                </button>
+              </div>
+              {manual && (
+                <input
+                  className="field-control mono"
+                  style={{ marginTop: 8 }}
+                  value={destinationWalletId}
+                  onChange={(e) => setDestination(e.target.value)}
+                  placeholder="ID de la cuenta destino"
+                  aria-label="Cuenta destino"
+                  autoComplete="off"
+                  spellCheck={false}
+                />
+              )}
             </div>
 
             <div className="field" style={{ marginBottom: 0 }}>
@@ -140,29 +192,11 @@ export default function TransferPage() {
               Confirmar transferencia
             </button>
           </div>
-
-          <p className="muted" style={{ marginTop: 12, fontSize: 11 }}>
-            seq: <code className="mono">{sequenceId}</code>
-          </p>
         </>
       )}
 
-      {view.kind === 'sending' && (
-        <Card style={{ marginTop: 8, textAlign: 'center' }}>
-          <SectionHeader title="Enviando…" />
-          <p className="muted" style={{ margin: 0 }}>
-            Preparando · firmando · confirmando
-          </p>
-        </Card>
-      )}
-
-      {view.kind === 'verifying' && (
-        <Card style={{ marginTop: 8, textAlign: 'center' }}>
-          <SectionHeader title="Verificando…" />
-          <p className="muted" style={{ margin: 0 }}>
-            Consultando si la transferencia se procesó
-          </p>
-        </Card>
+      {(view.kind === 'sending' || view.kind === 'verifying') && (
+        <SendProgress phase={view.kind} />
       )}
 
       {view.kind === 'result' && (
@@ -193,6 +227,33 @@ export default function TransferPage() {
           </Card>
         ))}
     </>
+  );
+}
+
+// Stepper de fases REALES: 'sending' (envío) → 'verifying' (confirmación tras
+// timeout). No inventamos sub-pasos que no podemos observar.
+function SendProgress({ phase }: { phase: 'sending' | 'verifying' }) {
+  const steps = [
+    { label: 'Enviando', done: phase === 'verifying', active: phase === 'sending' },
+    { label: 'Confirmando', done: false, active: phase === 'verifying' },
+  ];
+  return (
+    <Card style={{ marginTop: 8 }}>
+      <div className="stepper" aria-live="polite">
+        {steps.map((s) => (
+          <div
+            className="step"
+            key={s.label}
+            data-state={s.done ? 'done' : s.active ? 'active' : 'pending'}
+          >
+            <span className="step-dot" aria-hidden>
+              {s.done ? '✓' : s.active ? <span className="spinner" /> : ''}
+            </span>
+            {s.label}
+          </div>
+        ))}
+      </div>
+    </Card>
   );
 }
 
@@ -256,7 +317,7 @@ function Result({
             className="mono"
             style={{
               whiteSpace: 'pre-wrap',
-              color: 'var(--negative, #b91c1c)',
+              color: 'var(--negative)',
               fontSize: 12,
               margin: '8px 0 16px',
             }}
