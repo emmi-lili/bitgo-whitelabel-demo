@@ -7,5 +7,5 @@ export const SAVINGS_GOAL_MOCK = {
   emoji: '✈️',
   saved: 640,
   goal: 1000,
-  accent: '#1b4dff', // mismo azul de marca que el resto de la app
+  accent: 'var(--accent)', // acento secundario (violeta) — le da aire al azul de marca
 } as const;

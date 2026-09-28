@@ -36,7 +36,7 @@ export function Amount({
 export function MockBadge({ children = 'Simulado' }: { children?: ReactNode }) {
   return (
     <span className="badge badge-mock" title="Dato simulado, no proviene de BitGo">
-      🟡 {children}
+      {children}
     </span>
   );
 }
