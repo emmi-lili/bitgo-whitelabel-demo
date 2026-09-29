@@ -126,3 +126,30 @@ export interface PortfolioView {
   totalUsd: MoneyView;
   trades: TradeRecordView[];
 }
+
+// ── Staking (DeFi) ─────────────────────────────────────────────────────────────
+export interface StakingRateView {
+  coin: Coin;
+  apr: string;
+  /** true = read from BitGo; false = badged demo fallback. */
+  isReal: boolean;
+}
+
+export interface StakePositionView {
+  coin: Coin;
+  symbol: string;
+  glyph: string;
+  staked: MoneyView;
+  rewards: MoneyView;
+  rate: StakingRateView;
+  stakedAt: string | null;
+}
+
+export interface StakingView {
+  position: StakePositionView;
+  available: MoneyView;
+}
+
+export type StakeOutcomeView =
+  | { outcome: 'done'; action: 'stake' | 'unstake'; position: StakePositionView; moved: MoneyView }
+  | { outcome: 'failed'; message: string; source?: 'bitgo' | 'app' };
