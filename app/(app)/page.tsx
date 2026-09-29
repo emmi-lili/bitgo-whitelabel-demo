@@ -13,6 +13,7 @@ import {
 import { TransactionRow } from '@/components/TransactionList';
 import { DeltaChip, SavingsGoalCard } from '@/components/mock';
 import { MarketList } from '@/components/trading';
+import { StakingCard } from '@/components/staking';
 import { useApi } from '@/components/useApi';
 import type { PortfolioView, TransactionsView, ProductsView } from '@/components/types';
 
@@ -113,6 +114,10 @@ export default function DashboardPage() {
           {(d) => <MarketList assets={d.assets} />}
         </Async>
       </Card>
+
+      {/* ── DeFi: SOL staking (REAL APR, demo settlement) ───────────────────── */}
+      <SectionHeader title="DeFi" />
+      <StakingCard />
 
       {/* ── Pocket / savings goal (mock, Revolut style) ─────────────────────── */}
       <SectionHeader title="Ahorros" action={<MockBadge>Simulado</MockBadge>} />
