@@ -27,7 +27,8 @@
 //   (lib/bitgo/fields.ts) and flagged with TODO(verify).
 // ─────────────────────────────────────────────────────────────────────────────
 import 'server-only';
-import { bitgoFetch } from './client';
+import { bitgoConfig } from './config';
+import { bitgoFetch, expressFetch } from './client';
 import { nested } from './fields';
 
 const STAKING = '/api/go-staking/v1';
@@ -84,4 +85,63 @@ export function extractRewardRate(body: unknown): string | null {
     if (typeof c === 'number' && Number.isFinite(c)) return String(c);
   }
   return null;
+}
+
+// ── Write path: stake = preview → sign → finalize; unstake = finalize ──────────
+// The real staking flow, verified against the Go Account cookbook. NOTE (testnet
+// demo): the Go Account here is unfunded, so a real finalize settles to
+// insufficient funds — exactly like createMarketOrder in lib/bitgo/trading.ts.
+// That is why the app reads the REAL rate from this client but settles the
+// stake/unstake in the local demo ledger (lib/staking/service.ts). These wrappers
+// are wired and typed for when the account is funded; they are not fired in the
+// demo path.
+
+/** Half-signed OFC payload returned by Express, sent back to finalize. */
+interface StakingPreview {
+  payload?: Record<string, unknown>;
+  feeInfo?: { feeString?: string };
+}
+interface OfcSignResult {
+  payload?: Record<string, unknown>;
+  signature?: string;
+}
+
+/** POST /{coin}/accounts/{id}/requests/preview — generate an unsigned staking
+ *  request. `amount` is in BASE units. Returns the `payload` to sign + fee info. */
+export function previewStake(accountId: string, coin: string, amountBase: string) {
+  return bitgoFetch<StakingPreview>(
+    'POST',
+    `${STAKING}/${encodeURIComponent(coin)}/accounts/${encodeURIComponent(accountId)}/requests/preview`,
+    { amount: amountBase },
+  );
+}
+
+/** Full real STAKE: preview → sign the payload in Express → finalize with the
+ *  half-signed payload. `amount` is in BASE units. Returns the staking request
+ *  object (id, type, status). Not used in the demo settlement path. */
+export async function stakeReal(accountId: string, coin: string, amountBase: string) {
+  const preview = await previewStake(accountId, coin, amountBase);
+  const signed = await expressFetch<OfcSignResult>('POST', '/api/v2/ofc/signPayload', {
+    walletId: accountId,
+    walletPassphrase: bitgoConfig.walletPassphrase,
+    payload: preview.payload,
+  });
+  const halfSigned = signed.payload
+    ? { ...signed.payload, signature: signed.signature }
+    : signed;
+  return bitgoFetch<unknown>(
+    'POST',
+    `${STAKING}/${encodeURIComponent(coin)}/accounts/${encodeURIComponent(accountId)}/requests/finalize`,
+    { type: 'STAKE', amount: amountBase, frontTransferSendRequest: { halfSigned } },
+  );
+}
+
+/** Real UNSTAKE: a single finalize with type UNSTAKE. BitGo handles the internal
+ *  transfers, so no client signature is required. `amount` is in BASE units. */
+export function unstakeReal(accountId: string, coin: string, amountBase: string) {
+  return bitgoFetch<unknown>(
+    'POST',
+    `${STAKING}/${encodeURIComponent(coin)}/accounts/${encodeURIComponent(accountId)}/requests/finalize`,
+    { type: 'UNSTAKE', amount: amountBase },
+  );
 }
