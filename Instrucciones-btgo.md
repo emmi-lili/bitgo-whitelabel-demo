@@ -20,11 +20,11 @@ Ver `SCREENS.md` para el comportamiento de las pantallas que no están en el moc
 
 Esta distinción tiene que ser visible en el código y en la UI. No hay mocks silenciosos.
 
-**Real, contra BitGo testnet:** balances, transferencias entre Go Accounts (book transfers), historial de movimientos, direcciones de recepción, **productos y precios de trading (bid/ask de `level1`)**.
+**Real, contra BitGo testnet:** balances, transferencias entre Go Accounts (book transfers), historial de movimientos, direcciones de recepción, **productos y precios de trading (bid/ask de `level1`)**, y **la tasa (APR) y atributos de staking de SOL** (BitGo Go-Staking / CaaS, `/api/go-staking/v1/*`).
 
-**Mockeado, con etiqueta visible en pantalla:** KYC (badge estático), tarjeta física, límite de crédito, APR, ciclo de facturación, auto-pay, savings goal, categorías de gasto tipo "Food & Drink", y **la liquidación de compra/venta/swap**: los precios son reales pero el settlement ocurre en un ledger demo sembrado (`lib/demo/ledger.ts`), porque la Go Account de testnet está en cero y no hay faucet de saldo de trading. Toda pantalla de trading lleva `<MockBadge/>` aclarándolo.
+**Mockeado, con etiqueta visible en pantalla:** KYC (badge estático), tarjeta física, límite de crédito, APR de crédito, ciclo de facturación, auto-pay, savings goal, categorías de gasto tipo "Food & Drink", **la liquidación de compra/venta/swap**, y **la liquidación y acumulación de recompensas del staking**: en trading y en staking los precios/tasa son reales pero el settlement ocurre en un ledger demo sembrado (`lib/demo/ledger.ts`), porque la Go Account de testnet está en cero y no hay faucet. Toda pantalla de trading y de staking lleva `<MockBadge/>` aclarándolo.
 
-**Fuera de alcance del MVP:** wire, ACH, Plaid, retiros on-chain, staking, órdenes limit/stop/TWAP, y órdenes de trading con fondeo real (el cliente `lib/bitgo/trading.ts` ya las soporta y están verificadas contra la API, pero requieren fondear la Go Account).
+**Fuera de alcance del MVP:** wire, ACH, Plaid, retiros on-chain, órdenes limit/stop/TWAP, órdenes de trading con fondeo real, y **staking con liquidación real on-chain**. Los clientes reales (`lib/bitgo/trading.ts`, `lib/bitgo/staking.ts`) ya soportan estas operaciones y están verificados contra la API, pero requieren fondear la Go Account.
 
 Los datos mock viven en `lib/mock/` y **nunca** se mezclan con respuestas de BitGo dentro de la misma función. Todo componente que renderiza datos mock muestra un `<MockBadge />`. Si te encontrás queriendo mockear una respuesta de BitGo para "que funcione", pará: eso es exactamente la deuda que estamos evitando.
 
