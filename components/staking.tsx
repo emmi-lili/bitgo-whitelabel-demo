@@ -10,10 +10,7 @@ import type { StakingView } from '@/components/types';
 export function StakingCard() {
   const staking = useApi<StakingView>('/api/staking');
   return (
-    <Async
-      state={staking}
-      skeleton={<Skeleton height={92} radius={16} />}
-    >
+    <Async state={staking} skeleton={<Skeleton height={92} radius={16} />}>
       {(view) => {
         const { position } = view;
         const staked = formatMoneyValue(position.staked.value);

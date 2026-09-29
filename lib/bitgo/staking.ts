@@ -53,18 +53,12 @@ export function getStakingAttributes(accountId: string, coin: string) {
  *  app the POSITION is demo (the account is unfunded); we only read the RATE from
  *  here. Kept for completeness and for when the account is funded. */
 export function getAccountStaking(accountId: string) {
-  return bitgoFetch<unknown>(
-    'GET',
-    `${STAKING}/accounts/${encodeURIComponent(accountId)}/coins`,
-  );
+  return bitgoFetch<unknown>('GET', `${STAKING}/accounts/${encodeURIComponent(accountId)}/coins`);
 }
 
 /** GET /accounts/{id}/rewards — staking rewards history for a Go Account. */
 export function getStakingRewards(accountId: string) {
-  return bitgoFetch<unknown>(
-    'GET',
-    `${STAKING}/accounts/${encodeURIComponent(accountId)}/rewards`,
-  );
+  return bitgoFetch<unknown>('GET', `${STAKING}/accounts/${encodeURIComponent(accountId)}/rewards`);
 }
 
 /** Pull the annual reward rate (percentage string, e.g. "7") out of an attributes
@@ -126,9 +120,7 @@ export async function stakeReal(accountId: string, coin: string, amountBase: str
     walletPassphrase: bitgoConfig.walletPassphrase,
     payload: preview.payload,
   });
-  const halfSigned = signed.payload
-    ? { ...signed.payload, signature: signed.signature }
-    : signed;
+  const halfSigned = signed.payload ? { ...signed.payload, signature: signed.signature } : signed;
   return bitgoFetch<unknown>(
     'POST',
     `${STAKING}/${encodeURIComponent(coin)}/accounts/${encodeURIComponent(accountId)}/requests/finalize`,

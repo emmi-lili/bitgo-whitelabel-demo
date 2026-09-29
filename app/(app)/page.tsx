@@ -33,12 +33,22 @@ const svg = (paths: string) => (
 );
 
 const HERO_ACTIONS: Array<{ href: string; label: string; icon: JSX.Element }> = [
-  { href: '/trade?side=buy', label: 'Comprar', icon: svg('<path d="M12 5v14"/><path d="M6 13l6 6 6-6"/>') },
-  { href: '/trade?side=sell', label: 'Vender', icon: svg('<path d="M12 19V5"/><path d="M6 11l6-6 6 6"/>') },
+  {
+    href: '/trade?side=buy',
+    label: 'Comprar',
+    icon: svg('<path d="M12 5v14"/><path d="M6 13l6 6 6-6"/>'),
+  },
+  {
+    href: '/trade?side=sell',
+    label: 'Vender',
+    icon: svg('<path d="M12 19V5"/><path d="M6 11l6-6 6 6"/>'),
+  },
   {
     href: '/trade?side=swap',
     label: 'Swap',
-    icon: svg('<path d="M7 8h13"/><path d="M17 4l4 4-4 4"/><path d="M17 16H4"/><path d="M7 12l-3 4 3 4"/>'),
+    icon: svg(
+      '<path d="M7 8h13"/><path d="M17 4l4 4-4 4"/><path d="M17 16H4"/><path d="M7 12l-3 4 3 4"/>',
+    ),
   },
   {
     href: '/transfer',

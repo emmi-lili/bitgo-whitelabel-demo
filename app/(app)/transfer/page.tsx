@@ -195,9 +195,7 @@ export default function TransferPage() {
         </>
       )}
 
-      {(view.kind === 'sending' || view.kind === 'verifying') && (
-        <SendProgress phase={view.kind} />
-      )}
+      {(view.kind === 'sending' || view.kind === 'verifying') && <SendProgress phase={view.kind} />}
 
       {view.kind === 'result' && (
         <Result outcome={view.outcome} onRetry={() => submit()} onDone={() => reset(true)} />

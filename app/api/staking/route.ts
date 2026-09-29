@@ -29,7 +29,8 @@ export async function POST(req: Request): Promise<Response> {
   if (!amount) return fail('Falta el monto.');
 
   const now = new Date().toISOString();
-  const result = action === 'stake' ? await stake(coin, amount, now) : await unstake(coin, amount, now);
+  const result =
+    action === 'stake' ? await stake(coin, amount, now) : await unstake(coin, amount, now);
   const status = result.outcome === 'done' ? 200 : result.source === 'bitgo' ? 502 : 400;
   return Response.json(result, { status });
 }

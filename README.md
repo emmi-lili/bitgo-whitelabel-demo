@@ -15,8 +15,8 @@ simulado con un badge visible:
 | Balances / transacciones / transferencias (book transfer A→B) | **Real** (BitGo API + Express para firmar)                                                |
 | Precios de trading (level1)                                   | **Real** (BitGo Prime Trading)                                                            |
 | Liquidación de compra/venta/swap                              | **Demo** — ledger local en `.data/ledger.json` (la Go Account de testnet está sin fondos) |
-| Staking de SOL — tasa (APR) y atributos                       | **Real** (BitGo Go-Staking / CaaS, `/api/go-staking/v1/*`)                                 |
-| Staking de SOL — liquidación y recompensas                    | **Demo** — mismo ledger local, con acumulación perezosa (la Go Account está sin fondos)    |
+| Staking de SOL — tasa (APR) y atributos                       | **Real** (BitGo Go-Staking / CaaS, `/api/go-staking/v1/*`)                                |
+| Staking de SOL — liquidación y recompensas                    | **Demo** — mismo ledger local, con acumulación perezosa (la Go Account está sin fondos)   |
 | Categorías / comercios en el historial                        | **Mock** (`lib/mock/*`), badgeado en la UI                                                |
 
 ## Requisitos

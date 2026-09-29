@@ -4,7 +4,7 @@
 // position accrue rewards at the real rate.
 import { useMemo, useState } from 'react';
 import { AppHeader } from '@/components/AppHeader';
-import { AssetGlyph, Async, Card, EmptyState, MockBadge, Skeleton } from '@/components/ui';
+import { AssetGlyph, Async, Card, MockBadge, Skeleton } from '@/components/ui';
 import { useApi, fetchJson } from '@/components/useApi';
 import { formatMoneyValue, sanitizeDecimalInput } from '@/lib/domain/money';
 import { assetOf } from '@/lib/domain/assets';
@@ -150,7 +150,8 @@ function StakeInner({ view, reload }: { view: StakingView; reload: () => void })
           <div className="row-between">
             <span className="label">Monto ({meta.symbol})</span>
             <button type="button" className="link" onClick={() => setAmount(max)}>
-              {action === 'stake' ? 'Disp' : 'En staking'}: {formatMoneyValue(max)} {meta.symbol} · Max
+              {action === 'stake' ? 'Disp' : 'En staking'}: {formatMoneyValue(max)} {meta.symbol} ·
+              Max
             </button>
           </div>
           <input
