@@ -41,8 +41,8 @@
   --shadow-fab: 0 8px 20px rgba(27, 77, 255, 0.35);
 
   /* Tipografía — Inter (next/font) con degradé a la stack del sistema. */
-  --font-ui: var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
-    sans-serif;
+  --font-ui:
+    var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, monospace;
 }
 
@@ -437,6 +437,31 @@ body {
   padding-top: 14px;
   border-top: 1px solid var(--hairline);
   min-height: 44px;
+}
+
+/* ── Staking (DeFi) ───────────────────────────────────────────────────────── */
+.stake-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.stake-asset {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+.stake-apr {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+.stake-figures {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
 /* ── Segmented control / chips / search ───────────────────────────────────── */
