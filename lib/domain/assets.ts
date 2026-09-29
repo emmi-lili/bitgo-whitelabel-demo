@@ -99,6 +99,17 @@ export function tradableOf(coin: Coin): TradableAsset | undefined {
   return TRADABLE_ASSETS.find((t) => t.coin === coin);
 }
 
+// ── Staking (DeFi) ─────────────────────────────────────────────────────────────
+// Assets offered for staking through BitGo Go-Staking (CaaS). The coin id doubles
+// as the `{coin}` path segment of the go-staking API (e.g. `ofctsol`), confirmed
+// against the Go Account staking docs. SOL is BitGo's documented example and the
+// only asset in scope for the MVP (see docs/PLAN2.md Fase 8).
+export const STAKEABLE_COINS: readonly Coin[] = ['ofctsol'];
+
+export function isStakeable(coin: Coin): boolean {
+  return STAKEABLE_COINS.includes(coin);
+}
+
 export function isCoin(x: string): x is Coin {
   return (COINS as readonly string[]).includes(x);
 }
