@@ -21,6 +21,7 @@ import {
   type BaseMoney,
 } from '../domain/money';
 import type { TradeRecord } from '../domain/trading';
+import { accruedRewardBase, elapsedSeconds } from '../domain/staking';
 
 // Initial demo balance (display units). Chosen for a comfortable demo: a good
 // USD cushion to buy with and some of each crypto to sell/swap.
@@ -32,9 +33,19 @@ const SEED: Partial<Record<Coin, string>> = {
   ofctsol: '25',
 };
 
+// A staking position in the demo ledger. `rewards` is CHECKPOINTED base units:
+// pending accrual since `stakedAt` is computed live (see snapshot()) and only
+// folded in on a mutation. `stakedAt` is the last checkpoint, null when idle.
+interface StakeState {
+  staked: string; // base units currently staked
+  rewards: string; // base units of accrued (unclaimed) rewards, checkpointed
+  stakedAt: string | null; // ISO of the last accrual checkpoint
+}
+
 interface LedgerFile {
   balances: Record<string, string>; // coin → base units (string)
   trades: TradeRecord[];
+  staking: Record<string, StakeState>; // coin → staking position
   seededAt: string;
 }
 
@@ -47,7 +58,7 @@ function seed(): LedgerFile {
     const s = SEED[coin];
     balances[coin] = s ? toBase(displayUnits(coin, s)).value.toString() : '0';
   }
-  return { balances, trades: [], seededAt: new Date().toISOString() };
+  return { balances, trades: [], staking: {}, seededAt: new Date().toISOString() };
 }
 
 /** Guarda de forma: un archivo corrupto o de otra versión no debe romper la app
@@ -76,6 +87,9 @@ async function load(): Promise<LedgerFile> {
         cache.balances[coin] = s ? toBase(displayUnits(coin, s)).value.toString() : '0';
       }
     }
+    // Staking was added after the first ledgers were written; a file from before
+    // simply starts with no positions (nothing staked).
+    if (!cache.staking || typeof cache.staking !== 'object') cache.staking = {};
   } catch {
     cache = seed();
     await persist();
@@ -140,6 +154,109 @@ export async function settleTrade(
   f.trades.push(record);
   await persist();
   return record;
+}
+
+// ── Staking (demo settlement, APR supplied by the caller) ─────────────────────
+// The ledger stores staked principal + checkpointed rewards; the REAL APR comes
+// from BitGo and is passed in by lib/staking/service.ts (mocks never fetch real
+// data here — constitution). Rewards accrue lazily: pending accrual is computed
+// from `stakedAt` on read and only folded into the stored `rewards` on a
+// mutation, using the BigInt math in lib/domain/staking.ts.
+
+export class InsufficientDemoStake extends Error {
+  constructor(coin: Coin) {
+    super(`No hay suficiente ${coin.replace('ofct', '').toUpperCase()} en staking.`);
+    this.name = 'InsufficientDemoStake';
+  }
+}
+
+/** A read-only view of a staking position, with rewards including live accrual. */
+export interface StakeSnapshot {
+  coin: Coin;
+  stakedBase: string; // base units currently staked
+  rewardsBase: string; // base units accrued (checkpoint + pending)
+  stakedAt: string | null;
+}
+
+function stakeStateOf(f: LedgerFile, coin: Coin): StakeState {
+  const st = f.staking[coin] ?? { staked: '0', rewards: '0', stakedAt: null };
+  f.staking[coin] = st;
+  return st;
+}
+
+/** Rewards accrued since the last checkpoint, in base units (0 when idle). */
+function pendingReward(st: StakeState, apr: string, now: string): bigint {
+  if (!st.stakedAt) return 0n;
+  return accruedRewardBase(BigInt(st.staked), apr, elapsedSeconds(st.stakedAt, now));
+}
+
+/** Fold pending accrual into stored rewards and re-anchor the checkpoint at now.
+ *  Call before any change to the staked amount so accrual uses the old figures. */
+function checkpoint(st: StakeState, apr: string, now: string): void {
+  st.rewards = (BigInt(st.rewards) + pendingReward(st, apr, now)).toString();
+  st.stakedAt = BigInt(st.staked) > 0n ? now : null;
+}
+
+function snapshot(st: StakeState, coin: Coin, apr: string, now: string): StakeSnapshot {
+  return {
+    coin,
+    stakedBase: st.staked,
+    rewardsBase: (BigInt(st.rewards) + pendingReward(st, apr, now)).toString(),
+    stakedAt: st.stakedAt,
+  };
+}
+
+/** Current staking position, with rewards including live (uncheckpointed) accrual. */
+export async function getStake(coin: Coin, apr: string, now: string): Promise<StakeSnapshot> {
+  const f = await load();
+  return snapshot(stakeStateOf(f, coin), coin, apr, now);
+}
+
+/** Stake `amount` (base units): move it liquid → staked. Throws if the liquid
+ *  balance is short. Accrual is checkpointed first so the old amount earns up to
+ *  now, then the new principal starts earning from now. */
+export async function stakeDemo(
+  coin: Coin,
+  amount: BaseMoney,
+  apr: string,
+  now: string,
+): Promise<StakeSnapshot> {
+  const f = await load();
+  if (!gteBase(bal(f, coin), amount)) throw new InsufficientDemoFunds(coin);
+  const st = stakeStateOf(f, coin);
+  checkpoint(st, apr, now);
+  f.balances[coin] = subBase(bal(f, coin), amount).value.toString();
+  st.staked = (BigInt(st.staked) + amount.value).toString();
+  st.stakedAt = now;
+  await persist();
+  return snapshot(st, coin, apr, now);
+}
+
+/** Unstake `amount` (base units): move it staked → liquid AND claim all accrued
+ *  rewards to liquid in the same move (auto-claim on exit keeps value conserved
+ *  and the demo satisfying). Throws if the staked amount is short. */
+export async function unstakeDemo(
+  coin: Coin,
+  amount: BaseMoney,
+  apr: string,
+  now: string,
+): Promise<{ snapshot: StakeSnapshot; returnedBase: string; claimedRewardsBase: string }> {
+  const f = await load();
+  const st = stakeStateOf(f, coin);
+  if (!gteBase(baseUnits(coin, st.staked), amount)) throw new InsufficientDemoStake(coin);
+  checkpoint(st, apr, now);
+  const claimed = BigInt(st.rewards);
+  st.staked = subBase(baseUnits(coin, st.staked), amount).value.toString();
+  st.rewards = '0';
+  const credit = amount.value + claimed; // principal returned + rewards claimed
+  f.balances[coin] = addBase(bal(f, coin), baseUnits(coin, credit)).value.toString();
+  st.stakedAt = BigInt(st.staked) > 0n ? now : null;
+  await persist();
+  return {
+    snapshot: snapshot(st, coin, apr, now),
+    returnedBase: amount.value.toString(),
+    claimedRewardsBase: claimed.toString(),
+  };
 }
 
 /** Reset the ledger to the seeded balance (to restart a demo). */
