@@ -15,6 +15,8 @@ simulado con un badge visible:
 | Balances / transacciones / transferencias (book transfer A→B) | **Real** (BitGo API + Express para firmar)                                                |
 | Precios de trading (level1)                                   | **Real** (BitGo Prime Trading)                                                            |
 | Liquidación de compra/venta/swap                              | **Demo** — ledger local en `.data/ledger.json` (la Go Account de testnet está sin fondos) |
+| Staking de SOL — tasa (APR) y atributos                       | **Real** (BitGo Go-Staking / CaaS, `/api/go-staking/v1/*`)                                 |
+| Staking de SOL — liquidación y recompensas                    | **Demo** — mismo ledger local, con acumulación perezosa (la Go Account está sin fondos)    |
 | Categorías / comercios en el historial                        | **Mock** (`lib/mock/*`), badgeado en la UI                                                |
 
 ## Requisitos
@@ -68,6 +70,8 @@ lib/bitgo/      Cliente HTTP del BFF, config de secretos (server-only), lecturas
                 el flujo de transferencia (build → firmar → send, idempotente).
                 generated.ts es el cliente OpenAPI (generado; no se edita a mano).
 lib/trading/    Orquesta trading: precio real de BitGo + liquidación en el ledger demo.
+lib/staking/    Orquesta staking de SOL: APR real de BitGo Go-Staking + liquidación
+                y acumulación de recompensas en el ledger demo.
 lib/demo/       Ledger de liquidación simulada (persistencia JSON en .data/).
 lib/store/      Persistencia de transferencias por sequenceId (idempotencia).
 lib/mock/       Datos mock (categorías, comercios), aislados y badgeados.
