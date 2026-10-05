@@ -308,6 +308,10 @@ body {
   cursor: pointer;
   border-radius: var(--r-row);
   transition: background 0.12s ease;
+  /* Los <button> no heredan color del body: sin esto, en dark mode
+     nombres y montos quedan negros sobre --surface oscuro. */
+  color: var(--ink);
+  font: inherit;
 }
 @media (hover: hover) {
   .tx-row:hover {
@@ -512,8 +516,11 @@ body {
   border-radius: 999px;
   padding: 0 14px;
   min-height: 40px;
+  font: inherit;
   font-size: 13px;
   font-weight: 500;
+  /* Los <button> no heredan color: sin esto, en dark mode el label queda negro. */
+  color: var(--ink);
   cursor: pointer;
   transition:
     transform 0.08s ease,
@@ -523,9 +530,10 @@ body {
   transform: scale(0.97);
 }
 .chip[data-active='true'] {
-  background: var(--ink);
+  /* Brand (no --ink): en dark mode --ink es claro y el texto blanco se pierde. */
+  background: var(--brand);
   color: #fff;
-  border-color: var(--ink);
+  border-color: var(--brand);
 }
 .search {
   width: 100%;
