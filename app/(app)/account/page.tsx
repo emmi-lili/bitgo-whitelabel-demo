@@ -102,10 +102,10 @@ export default function AccountPage() {
         )}
       </Async>
 
-      {/* REAL BitGo balances (Go Account OFC, testnet) */}
+      {/* REAL BitGo balances (Go Account OFC) */}
       <SectionHeader
         title="Balances BitGo"
-        action={<span className="badge badge-active">Real · testnet</span>}
+        action={<span className="badge badge-active">Real</span>}
       />
       <Card>
         <Async
@@ -136,9 +136,9 @@ export default function AccountPage() {
           )}
         </Async>
         <p className="muted" style={{ fontSize: 12, marginTop: 8 }}>
-          Saldo on-chain real de la Go Account en BitGo testnet. Solo se listan activos con saldo
-          &gt; 0; si está todo en cero, ves SOL / USD / USDC vacíos. El portafolio de arriba liquida
-          en demo a precio real.
+          Saldo on-chain real de la Go Account en BitGo. Solo se listan activos con saldo &gt; 0; si
+          está todo en cero, ves SOL / USD / USDC vacíos. El portafolio de arriba liquida en demo a
+          precio real.
         </p>
       </Card>
     </>

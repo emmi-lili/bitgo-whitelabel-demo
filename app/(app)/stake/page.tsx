@@ -23,7 +23,7 @@ export default function StakePage() {
         Staking
       </h1>
       <div style={{ marginBottom: 12 }}>
-        <MockBadge>Rendimiento real de BitGo · staking simulado (testnet)</MockBadge>
+        <MockBadge>Rendimiento real de BitGo · staking simulado</MockBadge>
       </div>
 
       <Async

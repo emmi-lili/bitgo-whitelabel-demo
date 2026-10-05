@@ -163,7 +163,7 @@ function TradeInner() {
       </h1>
 
       <div style={{ marginBottom: 12 }}>
-        <MockBadge>Precios reales de BitGo · liquidación simulada (testnet)</MockBadge>
+        <MockBadge>Precios reales de BitGo · liquidación simulada</MockBadge>
       </div>
 
       {view === 'result' ? (
