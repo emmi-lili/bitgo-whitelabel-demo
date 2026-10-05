@@ -127,6 +127,12 @@ export async function listTrades(limit?: number): Promise<TradeRecord[]> {
   return limit ? sorted.slice(0, limit) : sorted;
 }
 
+/** Lookup de una operación demo por id (detalle de movimiento). */
+export async function getTrade(id: string): Promise<TradeRecord | null> {
+  const f = await load();
+  return f.trades.find((t) => t.id === id) ?? null;
+}
+
 export class InsufficientDemoFunds extends Error {
   constructor(coin: Coin) {
     super(`Saldo demo insuficiente de ${coin.replace('ofct', '').toUpperCase()}.`);

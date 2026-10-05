@@ -1,8 +1,11 @@
 // lib/domain/transaction.ts
 // Mapea Transfer[] (v2 wallet, base units) a dominio.
+// Las operaciones de trading (ledger demo) se mapean aparte en mapTradeAsTransaction
+// — no se mezclan fuentes dentro de la misma función (constitución).
 import type { Coin } from './assets';
-import { isCoin, coinFromCurrency } from './assets';
-import { absBase, baseUnits, toDisplay, type DisplayMoney } from './money';
+import { assetOf, isCoin, coinFromCurrency } from './assets';
+import { absBase, baseUnits, displayFromBitGo, toDisplay, type DisplayMoney } from './money';
+import type { TradeRecord } from './trading';
 import type { Schemas } from '../bitgo/types';
 
 export interface TxHistoryEvent {
@@ -102,4 +105,42 @@ export function mapTransfers(transfers: Schemas['Transfer'][]): TransactionsResu
   }
 
   return { transactions, unmapped };
+}
+
+const TRADE_SIDE_LABEL: Record<TradeRecord['side'], string> = {
+  buy: 'Compra',
+  sell: 'Venta',
+  swap: 'Swap',
+};
+
+/** Prefijo de subType para operaciones liquidadas en el ledger demo. */
+export const DEMO_TRADE_SUBTYPE_PREFIX = 'demo_trade_';
+
+/** Convierte un TradeRecord del ledger demo a la forma Transaction de Movimientos.
+ *  Una fila por operación: buy/swap → ingreso del crypto recibido; sell → egreso
+ *  del crypto entregado. El comment es el título visible en la lista. */
+export function mapTradeAsTransaction(t: TradeRecord): Transaction {
+  const isIn = t.side === 'buy' || t.side === 'swap';
+  const focus = isIn ? t.received : t.paid;
+  const symbol = assetOf(focus.coin).symbol;
+  return {
+    id: t.id,
+    coin: focus.coin,
+    direction: isIn ? 'in' : 'out',
+    amount: displayFromBitGo(focus.coin, focus.value),
+    state: 'confirmed',
+    pending: false,
+    isBookTransfer: false,
+    subType: `${DEMO_TRADE_SUBTYPE_PREFIX}${t.side}`,
+    date: t.createdAt,
+    comment: `${TRADE_SIDE_LABEL[t.side]} ${symbol}`,
+    sequenceId: undefined,
+    internalRef: t.bitgoOrderId ?? t.id,
+    onChainTxid: null,
+    history: [{ action: 'filled', date: t.createdAt }],
+  };
+}
+
+export function mapTradesAsTransactions(trades: TradeRecord[]): Transaction[] {
+  return trades.map(mapTradeAsTransaction);
 }

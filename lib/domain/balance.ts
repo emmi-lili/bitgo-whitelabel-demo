@@ -2,9 +2,13 @@
 // Mapea AccountBalance[] (prime trading, display units) a dominio.
 // Los CINCO balances se exponen por separado, no colapsados (PLAN2 Fase 2).
 import type { Coin } from './assets';
-import { coinFromCurrency, DISPLAY_COINS } from './assets';
+import { COINS, coinFromCurrency, DISPLAY_COINS } from './assets';
 import { baseUnits, displayFromBitGo, subBase, toDisplay, type DisplayMoney } from './money';
 import type { Schemas } from '../bitgo/types';
+
+function isZeroDisplay(v: string): boolean {
+  return /^-?0*(\.0*)?$/.test(v.trim());
+}
 
 export interface AssetBalance {
   coin: Coin;
@@ -103,13 +107,22 @@ function zeroBalance(coin: Coin): AssetBalance {
   };
 }
 
-/** Reduce a las monedas que muestra Cuenta (SOL, USD, USDC), una fila por moneda
- *  y en ese orden. Si BitGo no devolvió alguna, va en cero (está bien que sea cero
- *  hasta que entre algo). Colapsa duplicados por moneda: BitGo manda USD dos veces
- *  (TUSD y TUSD*, misma currency) — nos quedamos con la primera. */
+/** Prepara los balances para Cuenta.
+ *  · Si hay tenencias reales (> 0), muestra TODAS (BTC/ETH/SOL/USD/USDC…), en el
+ *    orden de COINS — no solo SOL/USD/USDC.
+ *  · Si está todo en cero, cae al layout estable DISPLAY_COINS (filas en cero).
+ *  Colapsa duplicados por moneda: BitGo manda USD dos veces (TUSD y TUSD*). */
 export function toDisplayBalances(result: BalancesResult): BalancesResult {
   const byCoin = new Map<Coin, AssetBalance>();
   for (const b of result.balances) if (!byCoin.has(b.coin)) byCoin.set(b.coin, b);
+
+  const held = COINS.map((coin) => byCoin.get(coin)).filter(
+    (b): b is AssetBalance => !!b && !isZeroDisplay(b.total.value),
+  );
+  if (held.length > 0) {
+    return { balances: held, unmapped: result.unmapped };
+  }
+
   const balances = DISPLAY_COINS.map((coin) => byCoin.get(coin) ?? zeroBalance(coin));
   return { balances, unmapped: result.unmapped };
 }
