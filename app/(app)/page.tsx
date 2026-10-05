@@ -11,7 +11,7 @@ import {
   Skeleton,
 } from '@/components/ui';
 import { TransactionRow } from '@/components/TransactionList';
-import { DeltaChip, SavingsGoalCard } from '@/components/mock';
+import { DeltaChip } from '@/components/mock';
 import { MarketList } from '@/components/trading';
 import { StakingCard } from '@/components/staking';
 import { useApi } from '@/components/useApi';
@@ -128,10 +128,6 @@ export default function DashboardPage() {
       {/* ── DeFi: SOL staking (REAL APR, demo settlement) ───────────────────── */}
       <SectionHeader title="DeFi" />
       <StakingCard />
-
-      {/* ── Pocket / savings goal (mock, Revolut style) ─────────────────────── */}
-      <SectionHeader title="Ahorros" action={<MockBadge>Simulado</MockBadge>} />
-      <SavingsGoalCard />
 
       {/* ── Recent (real, from BitGo) ───────────────────────────────────────── */}
       <SectionHeader
