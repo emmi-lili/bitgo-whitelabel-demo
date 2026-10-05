@@ -71,7 +71,13 @@ export default function TxDetailPage({ params }: { params: { id: string } }) {
               <div className="info-table">
                 <div className="info-row">
                   <span className="muted">Tipo</span>
-                  <span>{tx.isBookTransfer ? 'Transferencia interna' : (tx.subType ?? '—')}</span>
+                  <span>
+                    {tx.isBookTransfer
+                      ? 'Transferencia interna'
+                      : tx.subType?.startsWith('demo_trade_')
+                        ? 'Operación (demo)'
+                        : (tx.subType ?? '—')}
+                  </span>
                 </div>
                 {tx.comment && (
                   <div className="info-row">

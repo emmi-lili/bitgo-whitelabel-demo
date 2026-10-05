@@ -136,8 +136,9 @@ export default function AccountPage() {
           )}
         </Async>
         <p className="muted" style={{ fontSize: 12, marginTop: 8 }}>
-          Saldo on-chain real de la Go Account en BitGo testnet. El portafolio de arriba usa estos
-          precios reales pero liquida en un entorno de demo.
+          Saldo on-chain real de la Go Account en BitGo testnet. Solo se listan activos con saldo
+          &gt; 0; si está todo en cero, ves SOL / USD / USDC vacíos. El portafolio de arriba liquida
+          en demo a precio real.
         </p>
       </Card>
     </>

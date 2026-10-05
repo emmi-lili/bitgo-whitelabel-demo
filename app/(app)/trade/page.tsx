@@ -2,6 +2,7 @@
 // Trading screen: Buy / Sell / Swap. REAL BitGo prices (level1), DEMO settlement
 // (visible badge). The quote is recomputed live as you type.
 import { Suspense, useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { AppHeader } from '@/components/AppHeader';
 import { AssetGlyph, Card, MockBadge } from '@/components/ui';
@@ -377,6 +378,9 @@ function ResultCard({
         >
           Listo
         </button>
+        <Link href="/history" className="btn btn-secondary btn-block" style={{ marginTop: 8 }}>
+          Ver en movimientos
+        </Link>
       </Card>
     );
   }

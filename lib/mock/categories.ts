@@ -37,6 +37,10 @@ function hash(s: string): number {
 
 /** Ícono real (de subType) + categoría/merchant simulados. */
 export function mockCategory(tx: CategorizableTx): MockCategory {
+  // Operaciones de trading (ledger demo) — categoría explícita, no merchant mock.
+  if (tx.subType === 'demo_trade_buy') return { label: 'Trading', icon: '↓', color: 'green' };
+  if (tx.subType === 'demo_trade_sell') return { label: 'Trading', icon: '↑', color: 'orange' };
+  if (tx.subType === 'demo_trade_swap') return { label: 'Trading', icon: '⇄', color: 'violet' };
   // El ícono del tipo de movimiento SÍ es real (subType). La etiqueta es mock.
   if (tx.subType === 'ofc_book_transfer') return { label: 'Transfer', icon: '↔', color: 'blue' };
   if (tx.subType === 'ofc_deposit' || tx.direction === 'in')
@@ -48,7 +52,8 @@ export function mockCategory(tx: CategorizableTx): MockCategory {
 /** "Merchant" simulado — usa la nota real si existe, si no un nombre estable. */
 const MERCHANTS = ['Cuenta B', 'Whole Foods', 'Apple Store', 'Uber', 'Blue Bottle', 'Amazon'];
 export function mockMerchant(tx: CategorizableTx): string {
-  if (tx.comment) return tx.comment; // la nota es dato REAL
+  if (tx.comment) return tx.comment; // la nota es dato REAL (o título de operación)
+  if (tx.subType?.startsWith('demo_trade_')) return 'Operación';
   if (tx.subType === 'ofc_book_transfer') return tx.direction === 'out' ? 'Cuenta B' : 'Cuenta A';
   return MERCHANTS[hash(tx.id) % MERCHANTS.length] ?? 'Movimiento';
 }

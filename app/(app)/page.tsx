@@ -155,7 +155,7 @@ export default function DashboardPage() {
           isEmpty={(d) => d.transactions.length === 0}
           empty={
             <EmptyState title="Todavía no hay movimientos">
-              Cuando transfieras o recibas, aparecen acá.
+              Cuando compres, vendas, transfieras o recibas, aparecen acá.
             </EmptyState>
           }
         >
