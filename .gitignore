@@ -1,21 +1,8 @@
 node_modules
-.next
-out
-*.tsbuildinfo
-next-env.d.ts
-
-# app state (persistencia de transfers, MVP)
-.data
-
-# env
+dist
+dist-ssr
+*.local
 .env
-.env*.local
-
-# spike (código desechable Fase 0)
-spike/.env
-
-# docs internos (no se suben)
-docs/
-
+.env.*
+!.env.example
 .DS_Store
-*.log

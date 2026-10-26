@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Crypto Wallet App</title>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            appBg: '#F3F4F6',
+            appCard: '#FFFFFF',
+            appMuted: '#8E8E93',
+            appDark: '#121214',
+            pillBg: '#E9EBEF'
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+          },
+          borderRadius: {
+            '4xl': '2rem',
+            '3xl': '1.5rem',
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Styles: General & Utilities -->
+<style data-purpose="custom-utilities">
+    /* Hide scrollbar for horizontal avatar scrolling */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Soft realistic shadows */
+    .card-shadow {
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.04), 0 4px 12px -2px rgba(0, 0, 0, 0.02);
+    }
+    .dock-shadow {
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08), 0 2px 10px rgba(0, 0, 0, 0.04);
+    }
+  </style>
+<!-- Custom Styles: Icons and Illustrations -->
+<style data-purpose="decorative-styles">
+    .crypto-coin {
+      box-shadow: inset 1px 1px 3px rgba(255, 255, 255, 0.6), inset -1px -2px 5px rgba(0, 0, 0, 0.5), 0 6px 14px rgba(0,0,0,0.6);
+    }
+  </style>
+</head>
+<body class="bg-[#ECEEF2] text-[#121214] font-sans antialiased flex justify-center items-start min-h-screen sm:py-8 select-none">
+<!-- Mobile Phone Mockup Container (iPhone Aspect) -->
+<main class="w-full max-w-[412px] bg-[#F7F8FA] min-h-screen sm:min-h-[890px] sm:rounded-[48px] sm:shadow-2xl overflow-hidden relative flex flex-col justify-between border-0 sm:border-[8px] sm:border-[#1E2024]">
+<!-- Content Wrapper with Scroll -->
+<div class="flex-1 overflow-y-auto no-scrollbar pb-32">
+<!-- BEGIN: TopBar -->
+<header class="pt-12 px-6 pb-2 flex items-center justify-between" data-purpose="wallet-header">
+<!-- Wallet Switcher Dropdown -->
+<button aria-label="Select Wallet" class="inline-flex items-center space-x-1.5 text-base font-semibold text-neutral-800 tracking-tight hover:opacity-80 transition" type="button">
+<span class="text-[17px] font-bold text-[#1A1C1E]">Main Wallet</span>
+<svg class="w-4 h-4 text-neutral-400 stroke-[2.5]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<!-- Subtle Top-Right Indicator or Space Filler -->
+<div class="w-2 h-2 rounded-full bg-emerald-500 ring-4 ring-emerald-100"></div>
+</header>
+<!-- END: TopBar -->
+<!-- BEGIN: HeroBalance -->
+<section class="px-6 pt-2 pb-4" data-purpose="total-balance-display">
+<div class="relative overflow-hidden pt-2">
+<!-- Background Chart Wave Graphic (Subtle SVG) -->
+<svg class="absolute right-0 bottom-1 w-3/5 h-16 opacity-30 text-neutral-300 pointer-events-none" fill="none" viewbox="0 0 200 80">
+<path d="M0,65 Q30,60 55,40 T110,35 T160,15 T200,5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M0,65 Q30,60 55,40 T110,35 T160,15 T200,5 L200,80 L0,80 Z" fill="url(#balance-gradient)" opacity="0.4"></path>
+<defs>
+<lineargradient id="balance-gradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="currentColor"></stop>
+<stop offset="100%" stop-color="transparent"></stop>
+</lineargradient>
+</defs>
+</svg>
+<p class="text-[13px] font-medium text-[#7C8089] tracking-tight">Total Balance</p>
+<h1 class="text-[38px] leading-tight font-extrabold text-[#111315] tracking-tight mt-0.5">
+            $1,630.21
+          </h1>
+</div>
+</section>
+<!-- END: HeroBalance -->
+<!-- BEGIN: ActionButtons -->
+<section class="px-6 py-2" data-purpose="quick-actions">
+<div class="grid grid-cols-3 gap-2.5">
+<!-- Send Button (Active / Primary Black Pill) -->
+<button class="h-12 bg-[#121316] text-white rounded-full flex items-center justify-center space-x-2 shadow-sm hover:bg-neutral-800 active:scale-95 transition-all" type="button">
+<svg class="w-4 h-4 fill-current transform -rotate-45 -mt-0.5" viewbox="0 0 20 20">
+<path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+</svg>
+<span class="text-[14px] font-semibold tracking-tight">Send</span>
+</button>
+<!-- Receive Button (Light Pill) -->
+<button class="h-12 bg-[#E9ECF1] text-[#1B1E22] rounded-full flex items-center justify-center space-x-1.5 hover:bg-[#dfe3e9] active:scale-95 transition-all" type="button">
+<svg class="w-4 h-4 stroke-[2.2] text-[#1B1E22]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 14l-7 7m0 0l-7-7m7 7V3" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M5 21h14" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="text-[14px] font-semibold tracking-tight">Receive</span>
+</button>
+<!-- Buy Button (Light Pill) -->
+<button class="h-12 bg-[#E9ECF1] text-[#1B1E22] rounded-full flex items-center justify-center space-x-1.5 hover:bg-[#dfe3e9] active:scale-95 transition-all" type="button">
+<svg class="w-4 h-4 fill-current text-[#1B1E22]" viewbox="0 0 24 24">
+<circle cx="12" cy="12" fill="none" r="9" stroke="currentColor" stroke-width="2"></circle>
+<circle cx="12" cy="12" r="3.5"></circle>
+</svg>
+<span class="text-[14px] font-semibold tracking-tight">Buy</span>
+</button>
+</div>
+</section>
+<!-- END: ActionButtons -->
+<!-- BEGIN: ReferralBanner -->
+<section class="px-6 py-4" data-purpose="promo-banner">
+<div class="relative bg-[#0E0F12] text-white rounded-[26px] p-5 overflow-hidden shadow-lg min-h-[148px] flex flex-col justify-between">
+<!-- Text Content & CTA -->
+<div class="z-10 max-w-[58%]">
+<h2 class="text-[15px] font-bold leading-snug tracking-tight text-white mb-3">
+              Refer a Friend &amp; Earn $15 in Crypto
+            </h2>
+<button class="inline-flex items-center px-3.5 py-1.5 bg-white text-neutral-900 rounded-full text-[11px] font-bold hover:bg-neutral-100 active:scale-95 transition-all" type="button">
+<span>Share invite</span>
+<svg class="w-3 h-3 ml-0.5 stroke-[2.5]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+<!-- 3D Crypto Coins Mockup Graphic (Ethereum, Litecoin, Bitcoin) -->
+<div aria-hidden="true" class="absolute right-2.5 top-1/2 -translate-y-1/2 w-[145px] h-[130px] pointer-events-none">
+<!-- Sparkles -->
+<span class="absolute top-2 left-6 text-white text-xs opacity-75 animate-pulse">✦</span>
+<span class="absolute bottom-4 left-3 text-white text-xs opacity-80 animate-pulse">✦</span>
+<span class="absolute top-1/2 right-1 text-white text-[10px] opacity-70">✦</span>
+<!-- Top Left: Ethereum Coin -->
+<div class="crypto-coin absolute top-1 left-2 w-14 h-14 rounded-full bg-gradient-to-br from-neutral-200 via-neutral-400 to-neutral-700 flex items-center justify-center transform -rotate-12 border border-neutral-300">
+<svg class="w-6 h-6 text-neutral-900 drop-shadow" fill="currentColor" viewbox="0 0 24 24">
+<path d="M11.944 17.97L4.582 13.62 11.943 24l7.37-10.38-7.372 4.35h.003zM12.056 0L4.69 12.223l7.365 4.354 7.365-4.35L12.056 0z"></path>
+</svg>
+</div>
+<!-- Top Right: Litecoin Coin -->
+<div class="crypto-coin absolute top-2 right-1 w-13 h-13 rounded-full bg-gradient-to-br from-neutral-100 via-neutral-300 to-neutral-600 flex items-center justify-center transform rotate-6 border border-neutral-200">
+<span class="text-neutral-800 font-extrabold text-base italic drop-shadow">Ł</span>
+</div>
+<!-- Bottom Center: Bitcoin Coin -->
+<div class="crypto-coin absolute bottom-1 right-5 w-16 h-16 rounded-full bg-gradient-to-br from-neutral-200 via-neutral-400 to-neutral-800 flex items-center justify-center border border-neutral-300 z-10">
+<span class="text-neutral-900 font-extrabold text-xl tracking-tighter drop-shadow">₿</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: ReferralBanner -->
+<!-- BEGIN: QuickSendSection -->
+<section class="pt-2 pb-4" data-purpose="quick-send-contact-list">
+<!-- Section Title & Plus Action -->
+<div class="px-6 flex items-center justify-between mb-3">
+<h3 class="text-[17px] font-bold text-[#141518] tracking-tight">Quick Send</h3>
+<button aria-label="Add recipient" class="w-7 h-7 rounded-full bg-[#121316] text-white flex items-center justify-center hover:bg-neutral-800 transition active:scale-90" type="button">
+<svg class="w-3.5 h-3.5 stroke-[2.5]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+<!-- Horizontal Scrollable Avatars -->
+<div class="flex items-center space-x-3.5 overflow-x-auto no-scrollbar px-6">
+<!-- User 1: RahMan -->
+<div class="flex flex-col items-center flex-shrink-0 group cursor-pointer">
+<div class="w-[58px] h-[58px] rounded-full p-[2px] bg-white ring-2 ring-neutral-200 overflow-hidden shadow-sm">
+<img alt="RahMan" class="w-full h-full rounded-full object-cover grayscale contrast-125" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXeSmaPi6XaJt-T4ZHbNTadAG6DpyRRXOrQX9wE-W4743nyTFQY0yhBmKuqM6Tv553S5tI620eKcoz2tnHuo_kMCgf58p0BiAraH9uot7QQ-TGehLED_hEl3e-pbzKoA0HZsZyBN8Qug8N3wqBJbD2Xlqig3ZosO7tEMHwaAH358TCfkYABijhUqjH-qlWNECnCmbitzDuHd1UuE0gslEPl6btB-_1aSF1JYhzabGctg2NptoA7sU"/>
+</div>
+<span class="text-[12px] font-medium text-neutral-600 mt-1.5 tracking-tight group-hover:text-black">RahMan</span>
+</div>
+<!-- User 2: Farid -->
+<div class="flex flex-col items-center flex-shrink-0 group cursor-pointer">
+<div class="w-[58px] h-[58px] rounded-full p-[2px] bg-white ring-2 ring-neutral-200 overflow-hidden shadow-sm">
+<img alt="Farid" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA_ewKEaCXozYstTfRrxROAIW3aKgQNbU_EHCat8BazOg3Tf42Vyk1BCdrPYGhtKckZ9Sxb3B0yMleXfQ3-StxZn1XSFSTZA3Pt78d97SwD_ae1ABfyNyHAixy_7k2pRRSe0ewS43SiVbvG1Ce5JEaxYUv7sNPytTG0pYQ8LH_c76-9ezCFW_vTxW--SxVTx5hz2FSBEHrltmU_aFL-C0uuIlEQJw1KUgF1RbCaCDQY3ShmZxD3Mo"/>
+</div>
+<span class="text-[12px] font-medium text-neutral-600 mt-1.5 tracking-tight group-hover:text-black">Farid</span>
+</div>
+<!-- User 3: Murad (Emoji/Memoji Avatar) -->
+<div class="flex flex-col items-center flex-shrink-0 group cursor-pointer">
+<div class="w-[58px] h-[58px] rounded-full p-[2px] bg-white ring-2 ring-neutral-200 overflow-hidden shadow-sm flex items-center justify-center bg-amber-50">
+<img alt="Murad" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3tRdDsxZeWpQ9xIKixBH9LlAqg9w95AHEbfZabLkYmZ-QexOKdpfp26HuT-gAOhd4_tJzMJW7k1VfWJus9A-lq0oWJmYeBqUAKpvHDOjyvQDmPEhMTsh1rbNJMoGHmNfDB26rCL3kwtYQO97Pom3eKno0tukg-DzoffUHWyh-IKUvIGVQWAdK9W3zr6L6IIVpZD4NVJ63q0DNuzFXysfCLOweQdc3w4ghP-DbvypGtxD6Ty_CPH8"/>
+</div>
+<span class="text-[12px] font-medium text-neutral-600 mt-1.5 tracking-tight group-hover:text-black">Murad</span>
+</div>
+<!-- User 4: Jogo -->
+<div class="flex flex-col items-center flex-shrink-0 group cursor-pointer">
+<div class="w-[58px] h-[58px] rounded-full p-[2px] bg-white ring-2 ring-neutral-200 overflow-hidden shadow-sm">
+<img alt="Jogo" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7Mi4dd2YznZLnGAihE6u0gGo3mIV7dTkp27QEGZ2sawa2ARmhG51RFQimEqmsBHbYwL_F2q0Tu1UgOj0ux-NU1FwHSYP7bZRDLk_XV-OvszTloBert0RHpoEQLme-cET9iXZNTK6RGnalahu2d1sgmPxTPFr2CI-VLyZsd77P1avaWH8eIKD6IYY4G3kUEmQMao4fj4HIi7NWp5Y5XDq152gkx3nqcxLPKALIeYE-zez2Hdpg8Xo"/>
+</div>
+<span class="text-[12px] font-medium text-neutral-600 mt-1.5 tracking-tight group-hover:text-black">Jogo</span>
+</div>
+<!-- User 5: Vaipo -->
+<div class="flex flex-col items-center flex-shrink-0 group cursor-pointer">
+<div class="w-[58px] h-[58px] rounded-full p-[2px] bg-white ring-2 ring-neutral-200 overflow-hidden shadow-sm">
+<img alt="Vaipo" class="w-full h-full rounded-full object-cover grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbG1FHwLYl8yZAQirkU5uiIvyMlTfivWBbjW3hjI1pwBbrCopAiBaNkxGmDGdzsZtjjEcQV-4GiPJ7z_cxj6Y98ZwZ2rFlYpfD9sA2mAwPy1U_XVZlZqvUfNucKAL9ht_oF3b3yuryEAy9uCP0dRfwyibcxXX7lEy38MWofTadB8R9cxkxHpkBgefUnDUZ83KlZB-v4AEnjVcTY7j6GJKF4xW0oRma20hstiW63QoV46WL-my8bmU"/>
+</div>
+<span class="text-[12px] font-medium text-neutral-600 mt-1.5 tracking-tight group-hover:text-black">Vaipo</span>
+</div>
+</div>
+</section>
+<!-- END: QuickSendSection -->
+<!-- BEGIN: TransactionsSection -->
+<section class="px-6 pt-3 pb-6" data-purpose="recent-transactions">
+<!-- Header row -->
+<div class="flex items-center justify-between mb-3">
+<h3 class="text-[17px] font-bold text-[#141518] tracking-tight">Transactions</h3>
+<button class="px-2.5 py-1 bg-[#ECEEF2] hover:bg-[#dfe2e7] text-neutral-700 text-[11px] font-bold rounded-full transition" type="button">
+            View all
+          </button>
+</div>
+<!-- Transaction Item: Apple products -->
+<div class="flex items-center justify-between py-2">
+<!-- Icon & Info -->
+<div class="flex items-center space-x-3.5">
+<!-- Outgoing Arrow Icon Pill -->
+<div class="w-11 h-11 rounded-full bg-white flex items-center justify-center shadow-sm border border-neutral-100">
+<svg class="w-4 h-4 text-neutral-900 stroke-[2.5]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M7 17L17 7M17 7H9M17 7V15" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<h4 class="text-[14px] font-bold text-neutral-900 tracking-tight leading-tight">Apple products</h4>
+<p class="text-[12px] font-medium text-neutral-400 mt-0.5">May 24, 14:32</p>
+</div>
+</div>
+<!-- Transaction Amount -->
+<div class="text-right">
+<span class="text-[15px] font-bold text-neutral-900 tracking-tight">$999.00</span>
+</div>
+</div>
+</section>
+<!-- END: TransactionsSection -->
+</div>
+<!-- BEGIN: FloatingNavigationBar -->
+<nav class="absolute bottom-5 inset-x-5 z-30" data-purpose="floating-bottom-dock">
+<div class="h-[62px] bg-[#E9ECF1]/90 backdrop-blur-md rounded-full px-3 dock-shadow flex items-center justify-between border border-white/60">
+<!-- Active Home Tab (Prominent Black Circle) -->
+<button aria-label="Home" class="w-11 h-11 bg-[#121316] text-white rounded-full flex items-center justify-center shadow-md active:scale-95 transition" type="button">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24">
+<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
+</svg>
+</button>
+<!-- Vault / Box Icon Tab -->
+<button aria-label="Vault" class="p-2.5 text-neutral-500 hover:text-neutral-900 transition active:scale-95" type="button">
+<svg class="w-5 h-5 stroke-[2] fill-none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<!-- Sparkles / Rewards Tab -->
+<button aria-label="Rewards" class="p-2.5 text-neutral-500 hover:text-neutral-900 transition active:scale-95" type="button">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24">
+<path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"></path>
+</svg>
+</button>
+<!-- Analytics / Graph Tab -->
+<button aria-label="Analytics" class="p-2.5 text-neutral-500 hover:text-neutral-900 transition active:scale-95" type="button">
+<svg class="w-5 h-5 stroke-[2] fill-none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<!-- Profile Tab -->
+<button aria-label="Profile" class="p-2.5 text-neutral-500 hover:text-neutral-900 transition active:scale-95" type="button">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24">
+<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
+</svg>
+</button>
+</div>
+</nav>
+<!-- END: FloatingNavigationBar -->
+</main>
+</body></html>

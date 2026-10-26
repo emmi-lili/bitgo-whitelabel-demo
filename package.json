@@ -1,33 +1,27 @@
 {
-  "name": "bitgo-whitelabel",
-  "version": "0.1.0",
+  "name": "crypto-wallet-home",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "typecheck": "tsc --noEmit",
-    "lint": "next lint",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "test": "npm run typecheck && node --import tsx --test test/*.test.ts",
-    "gen:bitgo": "openapi-typescript https://assets.bitgo.com/api/openapi -o lib/bitgo/generated.ts"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "next": "^14.2.5",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "server-only": "^0.0.1"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@types/node": "^20.14.0",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.5",
-    "openapi-typescript": "^7.4.0",
-    "prettier": "^3.3.3",
-    "tsx": "^4.19.0",
-    "typescript": "^5.5.4"
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.9",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "3.4.17",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11"
   }
 }
