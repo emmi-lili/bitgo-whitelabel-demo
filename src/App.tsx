@@ -1,21 +1,24 @@
-import PhoneFrame from './components/PhoneFrame'
-import WalletHeader from './components/WalletHeader'
-import BalanceHero from './components/BalanceHero'
-import ActionButtons from './components/ActionButtons'
-import ReferralBanner from './components/ReferralBanner'
-import QuickSend from './components/QuickSend'
-import Transactions from './components/Transactions'
-import BottomDock from './components/BottomDock'
+import { useState } from 'react'
+import type { Screen } from './navigation'
+import HomeScreen from './components/HomeScreen'
+import AnalyticsScreen from './components/analytics/AnalyticsScreen'
+
+/** Left-to-right order of screens, used to pick the transition direction. */
+const ORDER: Record<Screen, number> = { home: 0, analytics: 1 }
 
 export default function App() {
-  return (
-    <PhoneFrame dock={<BottomDock />}>
-      <WalletHeader />
-      <BalanceHero />
-      <ActionButtons />
-      <ReferralBanner />
-      <QuickSend />
-      <Transactions />
-    </PhoneFrame>
+  const [screen, setScreen] = useState<Screen>('analytics')
+  const [enterClass, setEnterClass] = useState('anim-forward')
+
+  const navigate = (next: Screen) => {
+    if (next === screen) return
+    setEnterClass(ORDER[next] > ORDER[screen] ? 'anim-forward' : 'anim-back')
+    setScreen(next)
+  }
+
+  return screen === 'analytics' ? (
+    <AnalyticsScreen onNavigate={navigate} enterClass={enterClass} />
+  ) : (
+    <HomeScreen onNavigate={navigate} enterClass={enterClass} />
   )
 }
