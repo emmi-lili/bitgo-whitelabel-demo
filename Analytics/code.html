@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Analytics - Crypto Portfolio</title>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            appBg: '#F3F4F7',
+            cardBg: '#FFFFFF',
+            accentGreen: '#16A34A',
+            btcOrange: '#F7931A',
+            ltcBlue: '#345D9D',
+            bnbYellow: '#F3BA2F',
+            usdtTeal: '#26A17B',
+            solanaPurple: '#9945FF',
+            tronRed: '#EB0029',
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Text', 'SF Pro Display', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-styling">
+    /* Subtle background ambient reflections */
+    body {
+      background: #F4F5F8 radial-gradient(circle at 10% 0%, rgba(220, 205, 250, 0.45) 0%, transparent 40%),
+                  radial-gradient(circle at 90% 12%, rgba(245, 230, 255, 0.5) 0%, transparent 45%),
+                  radial-gradient(circle at 20% 95%, rgba(215, 175, 255, 0.3) 0%, transparent 40%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Hide scrollbar for a native app feel */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Soft shadow style matching iOS card elevations */
+    .card-shadow {
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+    }
+  </style>
+</head>
+<body class="bg-[#F3F4F7] p-0 md:py-6">
+<!-- BEGIN: PhoneShellContainer -->
+<!-- Container replicating the iPhone 15/16 Pro form factor -->
+<div class="relative w-full max-w-[400px] h-[870px] bg-[#F4F5F8] overflow-hidden md:rounded-[48px] md:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)] md:border-[8px] md:border-[#1E1E1E] flex flex-col justify-between">
+<!-- Ambient top glow inside screen -->
+<div class="absolute -top-20 -left-20 w-72 h-72 bg-purple-200/40 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -top-20 -right-20 w-72 h-72 bg-fuchsia-100/50 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Top Scrollable Area -->
+<div class="overflow-y-auto no-scrollbar w-full flex-1 pb-24 z-10">
+<!-- BEGIN: iOSStatusBar -->
+<!-- Top dynamic island & standard iOS status indicators -->
+<header class="sticky top-0 z-30 pt-3 pb-1 px-7 flex items-center justify-between text-black select-none">
+<!-- Time -->
+<span class="text-[15px] font-semibold tracking-tight">9:41</span>
+<!-- Dynamic Island Pill -->
+<div class="absolute left-1/2 -translate-x-1/2 top-2 w-[114px] h-[30px] bg-black rounded-full flex items-center justify-end px-3">
+<div class="w-2.5 h-2.5 rounded-full bg-[#0a0a0a] border border-neutral-800"></div>
+</div>
+<!-- Icons (Signal, Wifi, Battery) -->
+<div class="flex items-center space-x-1.5 pt-0.5">
+<!-- Cellular -->
+<svg class="w-4 h-3.5" fill="currentColor" viewbox="0 0 17 12">
+<rect height="3.5" rx="0.5" width="2.5" x="0.5" y="8.5"></rect>
+<rect height="6" rx="0.5" width="2.5" x="4.5" y="6"></rect>
+<rect height="8.5" rx="0.5" width="2.5" x="8.5" y="3.5"></rect>
+<rect height="11.5" rx="0.5" width="2.5" x="12.5" y="0.5"></rect>
+</svg>
+<!-- Wifi -->
+<svg class="w-4 h-3.5" fill="currentColor" viewbox="0 0 16 12">
+<path d="M8 2.5C10.6 2.5 13 3.6 14.7 5.3L16 3.9C13.9 1.8 11.1 0.5 8 0.5C4.9 0.5 2.1 1.8 0 3.9L1.3 5.3C3 3.6 5.4 2.5 8 2.5ZM8 6.5C9.6 6.5 11 7.2 12.1 8.3L13.4 6.9C11.9 5.4 9.9 4.5 8 4.5C6.1 4.5 4.1 5.4 2.6 6.9L3.9 8.3C5 7.2 6.4 6.5 8 6.5ZM8 10.5C8.8 10.5 9.5 11.2 9.5 12H6.5C6.5 11.2 7.2 10.5 8 10.5Z"></path>
+</svg>
+<!-- Battery -->
+<div class="flex items-center">
+<div class="w-5 h-2.5 border-[1.5px] border-black rounded-[4px] p-[1px] flex items-center">
+<div class="h-full w-3 bg-black rounded-[1.5px]"></div>
+</div>
+<div class="w-[1.5px] h-1 bg-black rounded-r-[1px] -ml-[0.5px]"></div>
+</div>
+</div>
+</header>
+<!-- END: iOSStatusBar -->
+<!-- BEGIN: NavigationBar -->
+<nav aria-label="Main Navigation" class="px-5 pt-3 pb-3 flex items-center justify-between relative">
+<!-- Back Button -->
+<button aria-label="Go back" class="w-11 h-11 bg-white rounded-full flex items-center justify-center shadow-sm text-neutral-800 active:scale-95 transition-transform hover:bg-neutral-50" type="button">
+<svg class="w-5 h-5 -ml-0.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24">
+<path d="M15 19l-7-7 7-7"></path>
+</svg>
+</button>
+<!-- Screen Title -->
+<h1 class="text-[23px] font-semibold tracking-tight text-neutral-900 absolute left-1/2 -translate-x-1/2">
+          Analytics
+        </h1>
+<div class="w-11 h-11 invisible"></div>
+</nav>
+<!-- END: NavigationBar -->
+<!-- BEGIN: MainContent -->
+<main class="px-4 space-y-3.5 mt-1">
+<!-- BEGIN: PortfolioValueCard -->
+<section class="bg-white rounded-3xl p-5 card-shadow relative overflow-hidden" data-purpose="portfolio-card">
+<!-- Text Header -->
+<div class="flex flex-col">
+<span class="text-neutral-400 font-medium text-[13.5px] tracking-normal">Portfolio Value</span>
+<div class="text-[31px] font-extrabold tracking-tight text-neutral-900 mt-0.5 leading-none">
+              $1,630.21
+            </div>
+<div class="text-[13px] font-semibold text-[#1FAF53] mt-1.5 flex items-center">
+              +$128.40 (2.1%) today
+            </div>
+</div>
+<!-- Dot Matrix / Histogram Visualization -->
+<div class="mt-4 mb-2 flex items-end justify-between h-[105px] px-1 select-none" data-purpose="dot-matrix-chart">
+<!-- Column 1 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+</div>
+<!-- Column 2 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+</div>
+<!-- Column 3 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+</div>
+<!-- Column 4 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+</div>
+<!-- Column 5 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+</div>
+<!-- Column 6 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+</div>
+<!-- Column 7 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+</div>
+<!-- Column 8 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+</div>
+<!-- Column 9 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+</div>
+<!-- Column 10 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+</div>
+<!-- Column 11 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+</div>
+<!-- Column 12 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+</div>
+<!-- Column 13 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-300"></span>
+</div>
+<!-- Column 14 (Major peak start - black dots) -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+</div>
+<!-- Column 15 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+</div>
+<!-- Column 16 (Tallest Peak) -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+</div>
+<!-- Column 17 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+</div>
+<!-- Column 18 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+</div>
+<!-- Column 19 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+</div>
+<!-- Column 20 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+</div>
+<!-- Column 21 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+</div>
+<!-- Column 22 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+</div>
+<!-- Column 23 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+</div>
+<!-- Column 24 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+</div>
+<!-- Column 25 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+</div>
+<!-- Column 26 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+</div>
+<!-- Column 27 -->
+<div class="flex flex-col-reverse gap-[3.5px]">
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+<span class="w-[4.5px] h-[4.5px] rounded-full bg-neutral-900"></span>
+</div>
+</div>
+<!-- Date Labels -->
+<div class="flex justify-between items-center text-[10.5px] font-semibold text-neutral-400 tracking-wider pt-1">
+<span>01 JUN 2026</span>
+<span>30 JUN 2026</span>
+</div>
+</section>
+<!-- END: PortfolioValueCard -->
+<!-- BEGIN: AssetAllocationCard -->
+<section class="bg-white rounded-3xl p-5 card-shadow" data-purpose="asset-allocation-card">
+<!-- Card Header -->
+<div class="flex justify-between items-center mb-4">
+<h2 class="text-[17px] font-bold text-neutral-900 tracking-tight">Asset Allocation</h2>
+<button aria-label="More options" class="text-neutral-400 hover:text-neutral-700" type="button">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+<circle cx="12" cy="5" r="2"></circle>
+<circle cx="12" cy="12" r="2"></circle>
+<circle cx="12" cy="19" r="2"></circle>
+</svg>
+</button>
+</div>
+<!-- 3-Column Assets Grid -->
+<div class="grid grid-cols-3 gap-x-2.5 gap-y-4">
+<!-- Asset: Bitcoin -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-1 overflow-hidden">
+<!-- Bitcoin Icon -->
+<div class="w-4 h-4 rounded-full bg-[#F7931A] text-white flex items-center justify-center font-bold text-[10px] shrink-0">
+                    ₿
+                  </div>
+<span class="text-[11.5px] font-semibold text-neutral-800 truncate">Bitcoin</span>
+</div>
+<span class="text-[11px] font-semibold text-neutral-800 shrink-0">50%</span>
+</div>
+<div class="w-full bg-neutral-200 h-2.5 rounded-full overflow-hidden">
+<div class="bg-neutral-900 h-full rounded-full" style="width: 50%;"></div>
+</div>
+</div>
+<!-- Asset: Litecoin -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-1 overflow-hidden">
+<!-- Litecoin Icon -->
+<div class="w-4 h-4 rounded-full bg-[#345D9D] text-white flex items-center justify-center font-bold text-[10px] shrink-0">
+                    Ł
+                  </div>
+<span class="text-[11.5px] font-semibold text-neutral-800 truncate">Litecoin</span>
+</div>
+<span class="text-[11px] font-semibold text-neutral-800 shrink-0">30%</span>
+</div>
+<div class="w-full bg-neutral-200 h-2.5 rounded-full overflow-hidden">
+<div class="bg-neutral-900 h-full rounded-full" style="width: 30%;"></div>
+</div>
+</div>
+<!-- Asset: BNB -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-1 overflow-hidden">
+<!-- BNB Icon -->
+<div class="w-4 h-4 rounded-full bg-[#F3BA2F] text-white flex items-center justify-center font-bold text-[8px] shrink-0">
+                    ◆
+                  </div>
+<span class="text-[11.5px] font-semibold text-neutral-800 truncate">BNB</span>
+</div>
+<span class="text-[11px] font-semibold text-neutral-800 shrink-0">42%</span>
+</div>
+<div class="w-full bg-neutral-200 h-2.5 rounded-full overflow-hidden">
+<div class="bg-neutral-900 h-full rounded-full" style="width: 42%;"></div>
+</div>
+</div>
+<!-- Asset: Tether -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-1 overflow-hidden">
+<!-- Tether Icon -->
+<div class="w-4 h-4 rounded-full bg-[#26A17B] text-white flex items-center justify-center font-bold text-[10px] shrink-0">
+                    ₮
+                  </div>
+<span class="text-[11.5px] font-semibold text-neutral-800 truncate">Tether</span>
+</div>
+<span class="text-[11px] font-semibold text-neutral-800 shrink-0">60%</span>
+</div>
+<div class="w-full bg-neutral-200 h-2.5 rounded-full overflow-hidden">
+<div class="bg-neutral-900 h-full rounded-full" style="width: 60%;"></div>
+</div>
+</div>
+<!-- Asset: Solana -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-1 overflow-hidden">
+<!-- Solana Icon -->
+<div class="w-4 h-4 rounded-full bg-gradient-to-tr from-[#9945FF] to-[#14F195] text-white flex items-center justify-center font-bold text-[8px] shrink-0">
+                    ≡
+                  </div>
+<span class="text-[11.5px] font-semibold text-neutral-800 truncate">Solana</span>
+</div>
+<span class="text-[11px] font-semibold text-neutral-800 shrink-0">70%</span>
+</div>
+<div class="w-full bg-neutral-200 h-2.5 rounded-full overflow-hidden">
+<div class="bg-neutral-900 h-full rounded-full" style="width: 70%;"></div>
+</div>
+</div>
+<!-- Asset: TRON -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-1 overflow-hidden">
+<!-- TRON Icon -->
+<div class="w-4 h-4 rounded-full bg-[#EB0029] text-white flex items-center justify-center font-bold text-[8px] shrink-0">
+                    ▼
+                  </div>
+<span class="text-[11.5px] font-semibold text-neutral-800 truncate">TRON</span>
+</div>
+<span class="text-[11px] font-semibold text-neutral-800 shrink-0">91%</span>
+</div>
+<div class="w-full bg-neutral-200 h-2.5 rounded-full overflow-hidden">
+<div class="bg-neutral-900 h-full rounded-full" style="width: 91%;"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: AssetAllocationCard -->
+<!-- BEGIN: SpendingCategoriesCard -->
+<section class="bg-white rounded-3xl p-5 card-shadow" data-purpose="spending-categories-card">
+<!-- Header -->
+<div class="flex justify-between items-center mb-3.5">
+<h2 class="text-[17px] font-bold text-neutral-900 tracking-tight">Spending categories</h2>
+<button aria-label="More options" class="text-neutral-400 hover:text-neutral-700" type="button">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+<circle cx="12" cy="5" r="2"></circle>
+<circle cx="12" cy="12" r="2"></circle>
+<circle cx="12" cy="19" r="2"></circle>
+</svg>
+</button>
+</div>
+<!-- Items List -->
+<div class="space-y-4">
+<!-- Category: Shopping -->
+<div>
+<div class="flex justify-between items-center text-[13px] font-medium mb-1.5">
+<span class="text-neutral-600">Shopping</span>
+<span class="text-neutral-900 font-bold text-[14px]">$1,240.00</span>
+</div>
+<!-- Segmented Vertical Bars -->
+<div class="flex items-center space-x-[2.2px] w-full overflow-hidden" data-purpose="segmented-bar-shopping">
+<!-- 28 active yellow vertical bars -->
+<div class="flex space-x-[2.2px] shrink-0">
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#E5B80B]"></span>
+</div>
+<!-- Remaining light grey bars -->
+<div class="flex space-x-[2.2px] shrink-0">
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+</div>
+</div>
+</div>
+<!-- Category: Food -->
+<div>
+<div class="flex justify-between items-center text-[13px] font-medium mb-1.5">
+<span class="text-neutral-600">Food</span>
+<span class="text-neutral-900 font-bold text-[14px]">$760.00</span>
+</div>
+<!-- Segmented Vertical Bars -->
+<div class="flex items-center space-x-[2.2px] w-full overflow-hidden" data-purpose="segmented-bar-food">
+<!-- 19 active blue/purple vertical bars -->
+<div class="flex space-x-[2.2px] shrink-0">
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-[#525CEB]"></span>
+</div>
+<!-- Remaining light grey bars -->
+<div class="flex space-x-[2.2px] shrink-0">
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+<span class="w-[3px] h-[14px] rounded-full bg-neutral-200"></span>
+</div>
+</div>
+</div>
+<!-- Category: Transport -->
+<div class="pb-1">
+<div class="flex justify-between items-center text-[13px] font-medium">
+<span class="text-neutral-600">Transport</span>
+<span class="text-neutral-900 font-bold text-[14px]">$148.00</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: SpendingCategoriesCard -->
+</main>
+<!-- END: MainContent -->
+</div>
+<!-- BEGIN: FloatingBottomNavigation -->
+<div class="absolute bottom-6 left-0 right-0 px-6 flex justify-center z-40 pointer-events-auto">
+<nav aria-label="Bottom Dock" class="bg-black/90 backdrop-blur-md rounded-full px-5 py-3.5 flex items-center justify-between w-full max-w-[320px] shadow-2xl">
+<!-- Home Tab -->
+<button aria-label="Home" class="text-neutral-400 hover:text-white transition-colors" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+</svg>
+</button>
+<!-- Wallet / Portfolio Tab -->
+<button aria-label="Wallet" class="text-neutral-400 hover:text-white transition-colors" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<rect height="14" rx="2" ry="2" width="20" x="2" y="7"></rect>
+<path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+</svg>
+</button>
+<!-- Sparkles / Rewards -->
+<button aria-label="Sparkles" class="text-neutral-400 hover:text-white transition-colors" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+</svg>
+</button>
+<!-- Analytics Tab (Active) -->
+<button aria-label="Analytics" class="text-white relative transition-colors" type="button">
+<svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+<path d="M3 3v18h18v-2H5V3H3zm4 14h2v-4H7v4zm4 0h2V7h-2v10zm4 0h2v-7h-2v7z"></path>
+</svg>
+<span class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full"></span>
+</button>
+<!-- Profile Tab -->
+<button aria-label="Profile" class="text-neutral-400 hover:text-white transition-colors" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+<circle cx="12" cy="7" r="4"></circle>
+</svg>
+</button>
+</nav>
+</div>
+<!-- END: FloatingBottomNavigation -->
+<!-- BEGIN: iOSHomeIndicator -->
+<div class="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-32 h-1 bg-neutral-400/80 rounded-full z-50 pointer-events-none"></div>
+<!-- END: iOSHomeIndicator -->
+</div>
+<!-- END: PhoneShellContainer -->
+</body></html>
