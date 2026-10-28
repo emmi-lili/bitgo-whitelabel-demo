@@ -5,7 +5,7 @@ export { formatCurrency }
 /* ---- Portfolio value card ---- */
 
 export const portfolio = {
-  label: 'Portfolio Value',
+  label: 'Valor de cartera',
 }
 
 export interface ChartRange {
@@ -32,7 +32,7 @@ export const chartRanges: ChartRange[] = [
     dots: [4, 6, 5, 8, 7, 10, 12],
     darkFrom: 3,
     value: 1630.21,
-    change: '+$54.10 (3.4%) this week',
+    change: '+$54.10 (3.4%) esta semana',
     rangeStart: '24 JUN 2026',
     rangeEnd: '30 JUN 2026',
     labels: [24, 25, 26, 27, 28, 29, 30].map(jun),
@@ -42,7 +42,7 @@ export const chartRanges: ChartRange[] = [
     dots: [1, 2, 3, 8, 4, 2, 4, 6, 3, 2, 2, 3, 2, 8, 12, 14, 10, 9, 6, 8, 6, 5, 8, 6, 4, 7, 6],
     darkFrom: 13,
     value: 1630.21,
-    change: '+$128.40 (2.1%) today',
+    change: '+$128.40 (2.1%) hoy',
     rangeStart: '01 JUN 2026',
     rangeEnd: '30 JUN 2026',
     labels: Array.from({ length: 27 }, (_, i) => jun(Math.round((i / 26) * 29) + 1)),
@@ -52,10 +52,10 @@ export const chartRanges: ChartRange[] = [
     dots: [3, 5, 4, 6, 5, 7, 6, 8, 7, 9, 11, 14],
     darkFrom: 6,
     value: 1630.21,
-    change: '+$612.00 (60.2%) this year',
-    rangeStart: 'JAN 2026',
-    rangeEnd: 'DEC 2026',
-    labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+    change: '+$612.00 (60.2%) este año',
+    rangeStart: 'ENE 2026',
+    rangeEnd: 'DIC 2026',
+    labels: ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SEP', 'OCT', 'NOV', 'DIC'],
   },
 ]
 
@@ -116,29 +116,29 @@ export interface SpendingCategory {
 export const spendingCategories: SpendingCategory[] = [
   {
     id: 'shopping',
-    label: 'Shopping',
+    label: 'Compras',
     amount: 1240,
     filled: 28,
     total: 39,
     color: '#E5B80B',
-    detail: '32 purchases · avg $38.75',
+    detail: '32 compras · prom. $38.75',
   },
   {
     id: 'food',
-    label: 'Food',
+    label: 'Comida',
     amount: 760,
     filled: 19,
     total: 39,
     color: '#525CEB',
-    detail: '21 orders · avg $36.19',
+    detail: '21 pedidos · prom. $36.19',
   },
   {
     id: 'transport',
-    label: 'Transport',
+    label: 'Transporte',
     amount: 148,
     filled: 5,
     total: 39,
     color: '#14B8A6',
-    detail: '12 trips · avg $12.33',
+    detail: '12 viajes · prom. $12.33',
   },
 ]

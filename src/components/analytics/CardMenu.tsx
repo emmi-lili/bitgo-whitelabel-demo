@@ -25,7 +25,7 @@ export default function CardMenu({ options }: { options: MenuOption[] }) {
   return (
     <div className="relative" ref={ref}>
       <button
-        aria-label="More options"
+        aria-label="Más opciones"
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
         className={`p-2 -m-2 rounded-full transition-colors active:scale-95 ${open ? 'text-neutral-800 bg-neutral-100' : 'text-neutral-400 hover:text-neutral-700'}`}

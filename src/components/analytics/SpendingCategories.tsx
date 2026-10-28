@@ -102,13 +102,13 @@ export default function SpendingCategories() {
       {/* Header */}
       <div className="flex justify-between items-center mb-3.5">
         <h2 className="text-[17px] font-bold text-neutral-900 tracking-tight">
-          Spending categories
+          Categorías de gasto
         </h2>
         <CardMenu
           options={[
-            { label: 'Default order', onSelect: () => setSort('default'), active: sort === 'default' },
-            { label: 'Highest first', onSelect: () => setSort('high'), active: sort === 'high' },
-            { label: 'Lowest first', onSelect: () => setSort('low'), active: sort === 'low' },
+            { label: 'Orden predeterminado', onSelect: () => setSort('default'), active: sort === 'default' },
+            { label: 'Mayor primero', onSelect: () => setSort('high'), active: sort === 'high' },
+            { label: 'Menor primero', onSelect: () => setSort('low'), active: sort === 'low' },
           ]}
         />
       </div>

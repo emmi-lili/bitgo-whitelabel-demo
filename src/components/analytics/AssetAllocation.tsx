@@ -23,14 +23,14 @@ export default function AssetAllocation() {
       {/* Header */}
       <div className="flex justify-between items-start mb-4">
         <div>
-          <h2 className="text-[17px] font-bold text-neutral-900 tracking-tight">Asset Allocation</h2>
-          <p className="text-[11.5px] font-medium text-neutral-500 mt-0.5">% of portfolio</p>
+          <h2 className="text-[17px] font-bold text-neutral-900 tracking-tight">Mis Activos</h2>
+          <p className="text-[11.5px] font-medium text-neutral-500 mt-0.5">% de la cartera</p>
         </div>
         <CardMenu
           options={[
-            { label: 'Default order', onSelect: () => setSort('default'), active: sort === 'default' },
-            { label: 'Sort by holdings', onSelect: () => setSort('holdings'), active: sort === 'holdings' },
-            { label: 'Sort by name', onSelect: () => setSort('name'), active: sort === 'name' },
+            { label: 'Orden predeterminado', onSelect: () => setSort('default'), active: sort === 'default' },
+            { label: 'Ordenar por tenencia', onSelect: () => setSort('holdings'), active: sort === 'holdings' },
+            { label: 'Ordenar por nombre', onSelect: () => setSort('name'), active: sort === 'name' },
           ]}
         />
       </div>
