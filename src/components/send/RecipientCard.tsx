@@ -74,7 +74,7 @@ export default function RecipientCard({
         className="block text-[12px] font-bold text-neutral-400 uppercase tracking-wider mb-2"
         htmlFor="walletAddress"
       >
-        Send To
+        Enviar a
       </label>
       <div className="relative flex items-center">
         <input
@@ -82,7 +82,7 @@ export default function RecipientCard({
           type="text"
           value={address}
           onChange={(e) => onAddressChange(e.target.value)}
-          placeholder="ENS, phone or wallet address…"
+          placeholder="ENS, teléfono o dirección…"
           className="w-full bg-[#F6F7FA] text-neutral-900 font-medium text-[14px] rounded-2xl py-3 pl-3.5 pr-20 border border-transparent focus:border-neutral-400 focus:bg-white focus:outline-none transition"
         />
         <button
@@ -90,7 +90,7 @@ export default function RecipientCard({
           onClick={() => onAddressChange(truncateAddress(PASTED_ADDRESS))}
           className="absolute right-2 bg-white hover:bg-neutral-100 text-neutral-800 text-[11px] font-bold px-2.5 py-1.5 rounded-xl border border-gray-200/80 active:scale-95 transition"
         >
-          PASTE
+          PEGAR
         </button>
       </div>
 
@@ -98,11 +98,11 @@ export default function RecipientCard({
       <div className="mt-4 pt-3 border-t border-gray-100">
         <div className="flex items-center justify-between mb-2.5">
           <span className="text-[12px] font-bold text-neutral-400 uppercase tracking-wider">
-            Quick Send
+            Envío rápido
           </span>
           <button
             type="button"
-            aria-label="Add recipient"
+            aria-label="Agregar destinatario"
             className="w-6 h-6 rounded-full bg-neutral-900 text-white flex items-center justify-center active:scale-90 transition"
           >
             <PlusIcon className="w-3.5 h-3.5" />

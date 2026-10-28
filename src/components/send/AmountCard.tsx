@@ -45,7 +45,7 @@ export default function AmountCard({
         htmlFor="sendAmount"
         className="text-[12px] font-bold text-neutral-400 tracking-wider uppercase"
       >
-        Set Amount
+        Monto a enviar
       </label>
 
       {/* Editable amount */}
@@ -59,7 +59,7 @@ export default function AmountCard({
           onChange={(e) => onInput(e.target.value)}
           onFocus={(e) => e.target.select()}
           placeholder="0.00"
-          aria-label="Amount in US dollars"
+          aria-label="Monto en dólares"
           className="text-5xl font-extrabold text-neutral-900 tracking-tight text-center bg-transparent border-0 p-0 focus:outline-none focus:ring-0 caret-neutral-900 placeholder:text-neutral-300"
           style={{ width: `${Math.max(value.length || 4, 1)}ch` }}
         />
@@ -71,7 +71,7 @@ export default function AmountCard({
           ≈ {cryptoAmount} {asset.symbol}
         </span>
         <span className="text-neutral-300">•</span>
-        <span className="text-success font-medium">Est. Fee ${asset.fee.toFixed(2)}</span>
+        <span className="text-success font-medium">Comisión est. ${asset.fee.toFixed(2)}</span>
       </div>
 
       {/* Quick percent pills */}

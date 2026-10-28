@@ -38,7 +38,7 @@ export default function AssetSelector({
               </span>
             </div>
             <p className="text-[12.5px] text-neutral-400 font-medium mt-0.5">
-              Avail: {formatUnits(asset.avail)} {asset.symbol}{' '}
+              Disp.: {formatUnits(asset.avail)} {asset.symbol}{' '}
               <span className="text-neutral-500 font-semibold">(~{formatCurrency(availUsd(asset))})</span>
             </p>
           </div>

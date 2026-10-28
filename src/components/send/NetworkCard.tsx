@@ -11,7 +11,7 @@ export default function NetworkCard({ asset }: { asset: SendAsset }) {
       >
         <span className="flex items-center space-x-2 text-neutral-500">
           <BoltIcon className="w-4 h-4 text-neutral-400" />
-          <span className="font-medium text-neutral-500">Network</span>
+          <span className="font-medium text-neutral-500">Red</span>
         </span>
         <span className="flex items-center space-x-1 font-bold text-neutral-800">
           <span>{asset.networkLabel}</span>
@@ -25,7 +25,7 @@ export default function NetworkCard({ asset }: { asset: SendAsset }) {
       <div className="flex items-center justify-between text-xs">
         <span className="flex items-center space-x-2 text-neutral-500">
           <ClockIcon className="w-4 h-4 text-neutral-400" />
-          <span className="font-medium text-neutral-500">Estimated Arrival</span>
+          <span className="font-medium text-neutral-500">Llegada estimada</span>
         </span>
         <span className="flex items-center space-x-1.5 font-bold text-neutral-800">
           <span className="w-1.5 h-1.5 rounded-full bg-success inline-block" />
