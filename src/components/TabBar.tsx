@@ -13,17 +13,17 @@ interface Tab {
 }
 
 const TABS: Tab[] = [
-  { key: 'home', label: 'Home', Icon: HomeIcon, iconClass: 'w-5 h-5 fill-current', screen: 'home' },
-  { key: 'wallet', label: 'Wallet', Icon: WalletIcon, iconClass: 'w-5 h-5 stroke-[2] fill-none' },
-  { key: 'rewards', label: 'Rewards', Icon: RewardsIcon, iconClass: 'w-5 h-5 fill-current' },
+  { key: 'home', label: 'Inicio', Icon: HomeIcon, iconClass: 'w-5 h-5 fill-current', screen: 'home' },
+  { key: 'wallet', label: 'Cartera', Icon: WalletIcon, iconClass: 'w-5 h-5 stroke-[2] fill-none' },
+  { key: 'rewards', label: 'Recompensas', Icon: RewardsIcon, iconClass: 'w-5 h-5 fill-current' },
   {
     key: 'analytics',
-    label: 'Analytics',
+    label: 'Analíticas',
     Icon: AnalyticsIcon,
     iconClass: 'w-5 h-5 stroke-[2] fill-none',
     screen: 'analytics',
   },
-  { key: 'profile', label: 'Profile', Icon: ProfileIcon, iconClass: 'w-5 h-5 fill-current' },
+  { key: 'profile', label: 'Perfil', Icon: ProfileIcon, iconClass: 'w-5 h-5 fill-current' },
 ]
 
 export default function TabBar({
@@ -52,13 +52,13 @@ export default function TabBar({
   }
 
   return (
-    <nav aria-label="Primary" className="absolute bottom-5 inset-x-4 z-40">
+    <nav aria-label="Navegación principal" className="absolute bottom-5 inset-x-4 z-40">
       {toast && (
         <div
           role="status"
           className="absolute -top-11 left-1/2 -translate-x-1/2 bg-neutral-900 text-white text-[12px] font-semibold px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap"
         >
-          Coming soon
+          Próximamente
         </div>
       )}
       <div className="relative h-[62px] bg-[#E9ECF1]/90 backdrop-blur-md rounded-full dock-shadow border border-white/60 flex">
@@ -80,7 +80,7 @@ export default function TabBar({
           return (
             <button
               key={tab.key}
-              aria-label={built ? tab.label : `${tab.label} (coming soon)`}
+              aria-label={built ? tab.label : `${tab.label} (próximamente)`}
               aria-current={isActive ? 'page' : undefined}
               onClick={() => handle(tab)}
               className={`relative z-10 flex-1 flex items-center justify-center transition-colors duration-200 active:scale-90 ${
