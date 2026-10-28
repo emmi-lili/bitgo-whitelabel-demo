@@ -28,7 +28,7 @@ export default function CardMenu({ options }: { options: MenuOption[] }) {
         aria-label="More options"
         aria-expanded={open}
         onClick={() => setOpen((o) => !o)}
-        className={`transition-colors ${open ? 'text-neutral-800' : 'text-neutral-400 hover:text-neutral-700'}`}
+        className={`p-2 -m-2 rounded-full transition-colors active:scale-95 ${open ? 'text-neutral-800 bg-neutral-100' : 'text-neutral-400 hover:text-neutral-700'}`}
         type="button"
       >
         <EllipsisIcon className="w-5 h-5" />
@@ -49,7 +49,7 @@ export default function CardMenu({ options }: { options: MenuOption[] }) {
               type="button"
             >
               <span>{opt.label}</span>
-              {opt.active && <span className="text-[12px] text-[#1FAF53]">✓</span>}
+              {opt.active && <span className="text-[12px] text-success">✓</span>}
             </button>
           ))}
         </div>

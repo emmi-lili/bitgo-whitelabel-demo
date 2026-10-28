@@ -23,7 +23,7 @@ export default function PortfolioCard() {
           <div className="text-[31px] font-extrabold tracking-tight text-neutral-900 mt-0.5 leading-none tabular-nums">
             {formatCurrency(displayValue)}
           </div>
-          <div className="text-[13px] font-semibold text-[#1FAF53] mt-1.5 flex items-center">
+          <div className="text-[13px] font-semibold text-success mt-1.5 flex items-center">
             {selected !== null ? range.labels[selected] : range.change}
           </div>
         </div>
@@ -49,7 +49,7 @@ export default function PortfolioCard() {
       <DotMatrixChart range={range} selected={selected} onSelect={setSelected} />
 
       {/* Date labels */}
-      <div className="flex justify-between items-center text-[10.5px] font-semibold text-neutral-400 tracking-wider pt-1">
+      <div className="flex justify-between items-center text-[10.5px] font-semibold text-neutral-500 tracking-wider pt-1">
         <span>{range.rangeStart}</span>
         <span>{range.rangeEnd}</span>
       </div>

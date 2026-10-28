@@ -1,12 +1,12 @@
 import type { Screen } from '../navigation'
-import PhoneFrame from './PhoneFrame'
+import AppScreen from './AppScreen'
+import TabBar from './TabBar'
 import WalletHeader from './WalletHeader'
 import BalanceHero from './BalanceHero'
 import ActionButtons from './ActionButtons'
 import ReferralBanner from './ReferralBanner'
 import QuickSend from './QuickSend'
 import Transactions from './Transactions'
-import BottomDock from './BottomDock'
 
 export default function HomeScreen({
   onNavigate,
@@ -16,13 +16,16 @@ export default function HomeScreen({
   enterClass?: string
 }) {
   return (
-    <PhoneFrame enterClass={enterClass} dock={<BottomDock onNavigate={onNavigate} />}>
-      <WalletHeader />
+    <AppScreen
+      enterClass={enterClass}
+      header={<WalletHeader />}
+      dock={<TabBar active="home" onNavigate={onNavigate} />}
+    >
       <BalanceHero />
       <ActionButtons />
       <ReferralBanner />
       <QuickSend />
       <Transactions />
-    </PhoneFrame>
+    </AppScreen>
   )
 }

@@ -33,9 +33,10 @@ export default function BalanceHero() {
           </defs>
         </svg>
         <p className="text-[13px] font-medium text-[#7C8089] tracking-tight">Total Balance</p>
-        <h1 className="text-[38px] leading-tight font-extrabold text-[#111315] tracking-tight mt-0.5">
+        <h1 className="text-[38px] leading-tight font-extrabold text-[#111315] tracking-tight mt-0.5 tabular-nums">
           {formatCurrency(balance)}
         </h1>
+        <p className="text-[13px] font-semibold text-success mt-1">+$128.40 (2.1%) today</p>
       </div>
     </section>
   )

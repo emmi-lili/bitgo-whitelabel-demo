@@ -1,11 +1,10 @@
 import type { Screen } from '../../navigation'
-import PhoneShell from './PhoneShell'
-import StatusBar from './StatusBar'
-import AnalyticsNav from './AnalyticsNav'
+import AppScreen from '../AppScreen'
+import TabBar from '../TabBar'
+import AnalyticsHeader from './AnalyticsHeader'
 import PortfolioCard from './PortfolioCard'
 import AssetAllocation from './AssetAllocation'
 import SpendingCategories from './SpendingCategories'
-import BottomDock from './BottomDock'
 
 export default function AnalyticsScreen({
   onNavigate,
@@ -15,14 +14,16 @@ export default function AnalyticsScreen({
   enterClass?: string
 }) {
   return (
-    <PhoneShell enterClass={enterClass} dock={<BottomDock onNavigate={onNavigate} />}>
-      <StatusBar />
-      <AnalyticsNav onBack={() => onNavigate('home')} />
+    <AppScreen
+      enterClass={enterClass}
+      header={<AnalyticsHeader />}
+      dock={<TabBar active="analytics" onNavigate={onNavigate} />}
+    >
       <main className="px-4 space-y-3.5 mt-1">
         <PortfolioCard />
         <AssetAllocation />
         <SpendingCategories />
       </main>
-    </PhoneShell>
+    </AppScreen>
   )
 }

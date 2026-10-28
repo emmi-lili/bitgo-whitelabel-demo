@@ -65,6 +65,15 @@ export function OutgoingArrowIcon(props: SVGProps<SVGSVGElement>) {
   )
 }
 
+/** Incoming arrow (transaction) */
+export function IncomingArrowIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" {...props}>
+      <path d="M17 7L7 17M7 17H15M7 17V9" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 /** Ethereum logo */
 export function EthIcon(props: SVGProps<SVGSVGElement>) {
   return (
@@ -89,6 +98,19 @@ export function VaultIcon(props: SVGProps<SVGSVGElement>) {
     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" {...props}>
       <path
         d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+export function WalletIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" {...props}>
+      <rect height="14" rx="2" ry="2" width="20" x="2" y="7" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

@@ -12,6 +12,8 @@ export default {
         appMuted: '#8E8E93',
         appDark: '#121214',
         pillBg: '#E9EBEF',
+        /** Single success/positive token used app-wide */
+        success: '#1FAF53',
       },
       fontFamily: {
         sans: [

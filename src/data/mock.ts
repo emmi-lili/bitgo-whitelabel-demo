@@ -57,5 +57,8 @@ export const contacts: Contact[] = [
 ]
 
 export const transactions: Transaction[] = [
-  { id: 'tx1', title: 'Apple products', date: 'May 24, 14:32', amount: 999.0, direction: 'out' },
+  { id: 'tx1', title: 'Salary', date: 'May 25, 09:00', amount: 3200.0, direction: 'in' },
+  { id: 'tx2', title: 'Apple products', date: 'May 24, 14:32', amount: 999.0, direction: 'out' },
+  { id: 'tx3', title: 'Spotify', date: 'May 23, 08:12', amount: 9.99, direction: 'out' },
+  { id: 'tx4', title: 'Coffee', date: 'May 22, 10:45', amount: 4.5, direction: 'out' },
 ]

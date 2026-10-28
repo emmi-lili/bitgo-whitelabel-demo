@@ -1,6 +1,7 @@
+/** iOS-style status bar shown at the top of every screen. */
 export default function StatusBar() {
   return (
-    <header className="sticky top-0 z-30 pt-3 pb-1 px-7 flex items-center justify-between text-black select-none">
+    <div className="pt-3 pb-1 px-7 flex items-center justify-between text-black select-none">
       {/* Time */}
       <span className="text-[15px] font-semibold tracking-tight">9:41</span>
 
@@ -30,6 +31,6 @@ export default function StatusBar() {
           <div className="w-[1.5px] h-1 bg-black rounded-r-[1px] -ml-[0.5px]" />
         </div>
       </div>
-    </header>
+    </div>
   )
 }

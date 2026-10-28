@@ -7,8 +7,8 @@ import AnalyticsScreen from './components/analytics/AnalyticsScreen'
 const ORDER: Record<Screen, number> = { home: 0, analytics: 1 }
 
 export default function App() {
-  const [screen, setScreen] = useState<Screen>('analytics')
-  const [enterClass, setEnterClass] = useState('anim-forward')
+  const [screen, setScreen] = useState<Screen>('home')
+  const [enterClass, setEnterClass] = useState('')
 
   const navigate = (next: Screen) => {
     if (next === screen) return

@@ -30,13 +30,13 @@ export default function DotMatrixChart({ range, selected, onSelect }: DotMatrixC
               aria-label={`${range.labels[col]}: ${formatCurrency(pointValue(count))}`}
               aria-pressed={isSelected}
               onClick={() => onSelect(isSelected ? null : col)}
-              className="flex flex-col-reverse gap-[3.5px] group cursor-pointer"
+              className="flex flex-col-reverse items-center gap-[3.5px] group cursor-pointer py-3 -my-3 px-[1px]"
             >
               {Array.from({ length: count }, (_, dot) => (
                 <span
                   key={dot}
                   className={`w-[4.5px] h-[4.5px] rounded-full transition-colors group-hover:opacity-60 ${
-                    isSelected ? 'bg-[#1FAF53]' : dark ? 'bg-neutral-900' : 'bg-neutral-300'
+                    isSelected ? 'bg-success' : dark ? 'bg-neutral-900' : 'bg-neutral-300'
                   }`}
                 />
               ))}

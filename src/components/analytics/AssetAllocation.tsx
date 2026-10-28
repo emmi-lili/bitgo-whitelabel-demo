@@ -1,12 +1,18 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { assets } from '../../data/analytics'
 import CardMenu from './CardMenu'
 
 type SortMode = 'default' | 'holdings' | 'name'
 
+const MAX_PERCENT = Math.max(...assets.map((a) => a.percent))
+
 export default function AssetAllocation() {
   const [sort, setSort] = useState<SortMode>('default')
   const [selected, setSelected] = useState<string | null>(null)
+  const [shown, setShown] = useState(false)
+
+  // Grow the bars from 0 once mounted.
+  useEffect(() => setShown(true), [])
 
   const ordered = [...assets]
   if (sort === 'holdings') ordered.sort((a, b) => b.percent - a.percent)
@@ -15,8 +21,11 @@ export default function AssetAllocation() {
   return (
     <section className="bg-white rounded-3xl p-5 analytics-card">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-[17px] font-bold text-neutral-900 tracking-tight">Asset Allocation</h2>
+      <div className="flex justify-between items-start mb-4">
+        <div>
+          <h2 className="text-[17px] font-bold text-neutral-900 tracking-tight">Asset Allocation</h2>
+          <p className="text-[11.5px] font-medium text-neutral-500 mt-0.5">% of portfolio</p>
+        </div>
         <CardMenu
           options={[
             { label: 'Default order', onSelect: () => setSort('default'), active: sort === 'default' },
@@ -36,7 +45,7 @@ export default function AssetAllocation() {
               type="button"
               onClick={() => setSelected(active ? null : asset.id)}
               aria-pressed={active}
-              className={`space-y-1.5 text-left rounded-xl p-1.5 -m-1.5 transition-colors ${
+              className={`space-y-1.5 text-left rounded-xl p-1.5 -m-1.5 transition-colors active:scale-[0.98] ${
                 active ? 'bg-neutral-100' : 'hover:bg-neutral-50'
               }`}
             >
@@ -57,8 +66,8 @@ export default function AssetAllocation() {
               </div>
               <div className="w-full bg-neutral-200 h-2.5 rounded-full overflow-hidden">
                 <div
-                  className="bg-neutral-900 h-full rounded-full transition-[width] duration-500 ease-out"
-                  style={{ width: `${asset.percent}%` }}
+                  className="bg-neutral-900 h-full rounded-full transition-[width] duration-700 ease-out"
+                  style={{ width: shown ? `${(asset.percent / MAX_PERCENT) * 100}%` : '0%' }}
                 />
               </div>
             </button>

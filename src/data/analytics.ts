@@ -76,20 +76,25 @@ export interface Asset {
   percent: number
 }
 
+/**
+ * Allocations are a true share of the portfolio and sum to 100%.
+ * The bar fill is scaled to the largest holding (see AssetAllocation) so the
+ * biggest position fills its track while the % label stays the real share.
+ */
 export const assets: Asset[] = [
-  { id: 'btc', name: 'Bitcoin', glyph: '₿', badgeClass: 'bg-[#F7931A]', percent: 50 },
-  { id: 'ltc', name: 'Litecoin', glyph: 'Ł', badgeClass: 'bg-[#345D9D]', percent: 30 },
-  { id: 'bnb', name: 'BNB', glyph: '◆', badgeClass: 'bg-[#F3BA2F]', glyphClass: 'text-[8px]', percent: 42 },
-  { id: 'usdt', name: 'Tether', glyph: '₮', badgeClass: 'bg-[#26A17B]', percent: 60 },
+  { id: 'btc', name: 'Bitcoin', glyph: '₿', badgeClass: 'bg-[#F7931A]', percent: 42 },
+  { id: 'ltc', name: 'Litecoin', glyph: 'Ł', badgeClass: 'bg-[#345D9D]', percent: 8 },
+  { id: 'bnb', name: 'BNB', glyph: '◆', badgeClass: 'bg-[#F3BA2F]', glyphClass: 'text-[8px]', percent: 12 },
+  { id: 'usdt', name: 'Tether', glyph: '₮', badgeClass: 'bg-[#26A17B]', percent: 20 },
   {
     id: 'sol',
     name: 'Solana',
     glyph: '≡',
     badgeClass: 'bg-gradient-to-tr from-[#9945FF] to-[#14F195]',
     glyphClass: 'text-[8px]',
-    percent: 70,
+    percent: 14,
   },
-  { id: 'trx', name: 'TRON', glyph: '▼', badgeClass: 'bg-[#EB0029]', glyphClass: 'text-[8px]', percent: 91 },
+  { id: 'trx', name: 'TRON', glyph: '▼', badgeClass: 'bg-[#EB0029]', glyphClass: 'text-[8px]', percent: 4 },
 ]
 
 /* ---- Spending categories card ---- */
@@ -127,5 +132,13 @@ export const spendingCategories: SpendingCategory[] = [
     color: '#525CEB',
     detail: '21 orders · avg $36.19',
   },
-  { id: 'transport', label: 'Transport', amount: 148, detail: '12 trips · avg $12.33' },
+  {
+    id: 'transport',
+    label: 'Transport',
+    amount: 148,
+    filled: 5,
+    total: 39,
+    color: '#14B8A6',
+    detail: '12 trips · avg $12.33',
+  },
 ]

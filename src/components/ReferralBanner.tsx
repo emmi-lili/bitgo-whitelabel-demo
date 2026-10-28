@@ -4,7 +4,7 @@ import { ChevronRightIcon } from './icons'
 export default function ReferralBanner() {
   return (
     <section className="px-6 py-4">
-      <div className="relative bg-[#0E0F12] text-white rounded-[26px] p-5 overflow-hidden shadow-lg min-h-[148px] flex flex-col justify-between">
+      <div className="relative bg-[#0E0F12] text-white rounded-3xl p-5 overflow-hidden shadow-lg min-h-[148px] flex flex-col justify-between">
         {/* Text Content & CTA */}
         <div className="z-10 max-w-[58%]">
           <h2 className="text-[15px] font-bold leading-snug tracking-tight text-white mb-3">
