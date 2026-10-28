@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Send Crypto - Crypto App</title>
+<!-- Tailwind CSS CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts for iOS SF Pro style typography -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          },
+          colors: {
+            cryptoBg: '#F3F4F7',
+            cardBg: '#FFFFFF',
+            darkPill: '#121316',
+            lightGrayBtn: '#E9ECF1',
+            accentGreen: '#10B981',
+          }
+        }
+      }
+    }
+  </script>
+<!-- BEGIN: Custom Styles -->
+<style data-purpose="custom-styling">
+    body {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .ios-blur {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+  </style>
+<!-- END: Custom Styles -->
+</head>
+<body class="bg-[#ECEEF2] text-[#121316] font-sans flex justify-center min-h-screen antialiased p-0 sm:py-6">
+<!-- Mobile Device Shell Container -->
+<main class="w-full max-w-[420px] bg-[#F4F5F8] min-h-screen sm:min-h-[880px] sm:max-h-[920px] sm:rounded-[48px] sm:shadow-2xl overflow-y-auto hide-scrollbar relative flex flex-col justify-between border border-gray-200/60 pb-8">
+<!-- BEGIN: iOS Status Bar & Dynamic Island -->
+<header class="w-full pt-3 px-7 flex flex-col sticky top-0 z-30 bg-[#F4F5F8]/90 ios-blur">
+<div class="flex items-center justify-between h-9">
+<!-- iOS Time -->
+<span class="text-[15px] font-semibold tracking-tight text-neutral-900 ml-1">9:41</span>
+<!-- Dynamic Island Placeholder -->
+<div class="w-28 h-[26px] bg-black rounded-full flex items-center justify-end pr-2.5 space-x-1.5 shadow-sm">
+<div class="w-2.5 h-2.5 rounded-full bg-neutral-900 border border-neutral-700"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#1c1c1e]"></div>
+</div>
+<!-- System Icons: Cellular, WiFi, Battery -->
+<div class="flex items-center space-x-1.5 text-neutral-900 mr-1">
+<svg class="w-4 h-3.5 fill-current" viewbox="0 0 18 14">
+<path d="M1 10h2.5v3H1v-3zm4.5-3H8v6H5.5V7zm4.5-3h2.5v9H10V4zm4.5-3H17v12h-2.5V1z"></path>
+</svg>
+<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 16 12">
+<path d="M8 3.6c2.5 0 4.8 1 6.5 2.6l1.5-1.5C13.8 2.6 11 1.6 8 1.6S2.2 2.6.1 4.7l1.4 1.5C3.2 4.6 5.5 3.6 8 3.6zm0 4c1.5 0 2.8.6 3.8 1.6l1.5-1.5C11.9 6.3 10 5.6 8 5.6s-3.9.7-5.3 2.1l1.5 1.5C5.2 8.2 6.5 7.6 8 7.6zm0 4c.8 0 1.5.3 2.1.9l-2.1 2.1-2.1-2.1c.6-.6 1.3-.9 2.1-.9z"></path>
+</svg>
+<!-- Battery icon -->
+<div class="w-5 h-2.5 border border-neutral-800 rounded-[4px] p-0.5 flex items-center">
+<div class="h-full w-3 bg-neutral-900 rounded-[1.5px]"></div>
+</div>
+</div>
+</div>
+<!-- Navigation Header -->
+<nav aria-label="Top Bar" class="flex items-center justify-between py-3 mt-1">
+<!-- Back Button -->
+<button aria-label="Go Back" class="w-11 h-11 rounded-full bg-white flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 hover:bg-neutral-100 transition-colors active:scale-95" type="button">
+<svg class="w-5 h-5 text-neutral-800 stroke-[2.5]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<!-- Screen Title -->
+<h1 class="text-[19px] font-bold text-neutral-900 tracking-tight">Send Money</h1>
+<!-- QR Scanner Action -->
+<button aria-label="Scan QR Code" class="w-11 h-11 rounded-full bg-white flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 hover:bg-neutral-100 transition-colors active:scale-95" type="button">
+<svg class="w-5 h-5 text-neutral-800" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M3 7V5a2 2 0 012-2h2m10 0h2a2 2 0 012 2v2m0 10v2a2 2 0 01-2 2h-2m-10 0H5a2 2 0 01-2-2v-2" stroke-linecap="round" stroke-linejoin="round"></path>
+<rect class="fill-current" height="3" width="3" x="7" y="7"></rect>
+<rect class="fill-current" height="3" width="3" x="14" y="7"></rect>
+<rect class="fill-current" height="3" width="3" x="7" y="14"></rect>
+<path d="M14 14h3v3h-3z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</nav>
+</header>
+<!-- END: iOS Status Bar & Dynamic Island -->
+<!-- BEGIN: Main Form Body -->
+<div class="px-5 space-y-4 pt-2">
+<!-- Asset & Balance Selector Pill -->
+<section class="bg-white rounded-2xl p-3.5 shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-gray-100/90 flex items-center justify-between" data-purpose="asset-selector">
+<div class="flex items-center space-x-3">
+<!-- Crypto Icon (Ethereum / Bitcoin styled badge) -->
+<div class="w-11 h-11 rounded-full bg-gradient-to-tr from-[#2b2b36] to-[#4c4e5d] flex items-center justify-center shadow-sm relative">
+<svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 24 24">
+<path d="M11.944 17.97L4.582 13.62 11.943 24l7.37-10.38-7.372 4.35h.003zM12.056 0L4.69 12.223l7.365 4.354 7.365-4.35L12.056 0z"></path>
+</svg>
+<span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+</div>
+<div>
+<div class="flex items-center space-x-1.5">
+<span class="font-bold text-[16px] text-neutral-900 leading-tight">Ethereum</span>
+<span class="text-[12px] font-semibold text-neutral-400 bg-neutral-100 px-1.5 py-0.5 rounded">ETH</span>
+</div>
+<p class="text-[12.5px] text-neutral-400 font-medium mt-0.5">Avail: 1.482 ETH <span class="text-neutral-500 font-semibold">(~$4,930.20)</span></p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full bg-neutral-100/80 flex items-center justify-center text-neutral-600 hover:bg-neutral-200 transition" type="button">
+<svg class="w-4 h-4 stroke-[2.5]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</section>
+<!-- Recipient Address Input Card -->
+<section class="bg-white rounded-3xl p-4 shadow-[0_3px_12px_rgba(0,0,0,0.03)] border border-gray-100" data-purpose="recipient-input-card">
+<label class="block text-[12px] font-bold text-neutral-400 uppercase tracking-wider mb-2" for="walletAddress">Send To</label>
+<div class="relative flex items-center">
+<input class="w-full bg-[#F6F7FA] text-neutral-900 font-medium text-[14px] rounded-2xl py-3 pl-3.5 pr-20 border border-transparent focus:border-neutral-400 focus:bg-white focus:outline-none transition" id="walletAddress" placeholder="ENS, phone or wallet address..." type="text" value="0x71C...a47b"/>
+<div class="absolute right-2 flex items-center space-x-1">
+<button class="bg-white hover:bg-neutral-100 text-neutral-800 text-[11px] font-bold px-2.5 py-1.5 rounded-xl border border-gray-200/80 shadow-xs transition" type="button">
+              PASTE
+            </button>
+</div>
+</div>
+<!-- Quick Contacts / Quick Send avatars (Styled exactly as Screen 4) -->
+<div class="mt-4 pt-3 border-t border-gray-100">
+<div class="flex items-center justify-between mb-2.5">
+<span class="text-[12px] font-bold text-neutral-400 uppercase tracking-wider">Quick Send</span>
+<button class="w-6 h-6 rounded-full bg-neutral-900 text-white flex items-center justify-center text-xs shadow-sm" type="button">
+<svg class="w-3.5 h-3.5 stroke-[2.5]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+<!-- Recipient Avatar Horizontal List -->
+<div class="flex items-center justify-between px-1">
+<!-- Contact 1 (Selected) -->
+<div class="flex flex-col items-center space-y-1.5 cursor-pointer group">
+<div class="relative">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-neutral-900 p-0.5 transition-transform group-hover:scale-105">
+<img alt="RahMan avatar" class="w-full h-full rounded-full object-cover grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoNtM2AyBwiD8XncfyxKF_KPd5m5_URv4TNDvwR3kKPptNWzsDC43xLu03LFIBWT1-6zaxKg__O2rxr6XknxdLI75SgYEM270edC7SJCkSNY6ArLpHvKSLdLmkhZPS3ui0Fd3IvyNVhryDhbi6dOtGz92tT4kErKQIfdT9HJ2DU5IheguFvWzTGXo5Yp4swOhRjsHue1zLjWylEtvm9MDj48KhCBx9UWkQa4jr8agDoo7VE6YzzoE"/>
+</div>
+<div class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-neutral-900 border-2 border-white rounded-full flex items-center justify-center">
+<svg class="w-2 h-2 text-white stroke-[3]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</div>
+<span class="text-[12px] font-bold text-neutral-900 tracking-tight">RahMan</span>
+</div>
+<!-- Contact 2 -->
+<div class="flex flex-col items-center space-y-1.5 cursor-pointer group">
+<div class="w-12 h-12 rounded-full overflow-hidden border border-gray-200 transition-transform group-hover:scale-105">
+<img alt="Farid avatar" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSzxunFyhbnt-zGsx6wns6_qMFys5pLw_mGvTj1WqiZNL2kpFoYxscW2Vt8_d99fZ5qJI77oKKOoO4TOKvkBxFca_zLHi1Gu1C6af9Qjl4JR823xW24Cp8sPkySPoeZj6H-xUU-AFtOdkFCBlTSGnk0SEwJB7im18poYYQ4nR0xEkcy-WKU1_gXH1skz80ulK0A5Q__juj4HU9WynSr6-cCHLmN3U1K2DSd5jX12leR2x08KwO1FY"/>
+</div>
+<span class="text-[12px] font-medium text-neutral-500">Farid</span>
+</div>
+<!-- Contact 3 -->
+<div class="flex flex-col items-center space-y-1.5 cursor-pointer group">
+<div class="w-12 h-12 rounded-full overflow-hidden border border-gray-200 transition-transform group-hover:scale-105">
+<img alt="Murad avatar" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0gENs7ESUXzilCZ5KHBmASVW3cAblQONixd635kdgqvhCUo1fG4ycfdQxzWzRi3azlFauJ488sxQZCjTsqImGKft0Cyd9791n3uRx39tWtPLHLWwxvhoBulin9q-MyzsdSnIGD1oSST9gkXT4wIhAQ61qtYEnjHu95aNUmMTFT54sFf_B4zpcH2eeIhCTVIhV-W9JgMRJbs5DQff4_m9K6YTQQC-Gmk0zRuhnznM1UPWG-zqDN7g"/>
+</div>
+<span class="text-[12px] font-medium text-neutral-500">Murad</span>
+</div>
+<!-- Contact 4 -->
+<div class="flex flex-col items-center space-y-1.5 cursor-pointer group">
+<div class="w-12 h-12 rounded-full overflow-hidden border border-gray-200 transition-transform group-hover:scale-105">
+<img alt="Vaipo avatar" class="w-full h-full rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfZOiDY3x3_RYQgn23uZ0Q-lw2GzOfN_-oquDpbrDWjtdEob9Uc8PSq6nXwLFbP3HBKpjkC4io-prAcqD1Cei27DAk-mLg-UlBX8D2x3F9J7AX8abuhgLYx-1WovNQH7b1SK-Ti_SXpNZb5ozJJUKGBtBaXPRTqx3vfGwq96qAFArxHxzTk0yTeEM29O-17y_S_Ppk29KEHNRNwg3-gFYr4Z1uMDGaL_Trsms9_57PMMKPbLURJUk"/>
+</div>
+<span class="text-[12px] font-medium text-neutral-500">Vaipo</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Amount Input Container -->
+<section class="bg-white rounded-3xl p-5 shadow-[0_3px_12px_rgba(0,0,0,0.03)] border border-gray-100 flex flex-col items-center text-center" data-purpose="amount-transfer-card">
+<span class="text-[12px] font-bold text-neutral-400 tracking-wider uppercase">Set Amount</span>
+<!-- Large Interactive Balance Indicator -->
+<div class="my-2.5 flex items-baseline justify-center">
+<span class="text-3xl font-extrabold text-neutral-900 tracking-tight mr-1">$</span>
+<span class="text-5xl font-extrabold text-neutral-900 tracking-tight">450.00</span>
+</div>
+<!-- Equivalent Crypto Amount & Gas Preview -->
+<div class="inline-flex items-center space-x-1.5 bg-[#F6F7FA] px-3 py-1 rounded-full text-xs font-semibold text-neutral-600">
+<span>≈ 0.1352 ETH</span>
+<span class="text-neutral-300">•</span>
+<span class="text-emerald-600 font-medium">Est. Fee $1.15</span>
+</div>
+<!-- Quick Amount Percentage Pills -->
+<div class="grid grid-cols-4 gap-2.5 w-full mt-4">
+<button class="py-2 rounded-xl bg-[#F6F7FA] text-xs font-bold text-neutral-700 hover:bg-neutral-200 active:scale-95 transition" type="button">25%</button>
+<button class="py-2 rounded-xl bg-[#F6F7FA] text-xs font-bold text-neutral-700 hover:bg-neutral-200 active:scale-95 transition" type="button">50%</button>
+<button class="py-2 rounded-xl bg-[#F6F7FA] text-xs font-bold text-neutral-700 hover:bg-neutral-200 active:scale-95 transition" type="button">75%</button>
+<button class="py-2 rounded-xl bg-neutral-900 text-xs font-bold text-white shadow-sm active:scale-95 transition" type="button">MAX</button>
+</div>
+</section>
+<!-- Network and Transfer Details Card -->
+<section class="bg-white rounded-3xl p-4 shadow-[0_3px_12px_rgba(0,0,0,0.03)] border border-gray-100 space-y-3" data-purpose="network-details-card">
+<!-- Row 1: Network Selection -->
+<div class="flex items-center justify-between text-xs">
+<div class="flex items-center space-x-2 text-neutral-500">
+<svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="font-medium text-neutral-500">Network</span>
+</div>
+<div class="flex items-center space-x-1 font-bold text-neutral-800">
+<span>Ethereum Mainnet (ERC-20)</span>
+<svg class="w-3.5 h-3.5 text-neutral-400 stroke-[2.5]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</div>
+<div class="h-px bg-gray-100 w-full"></div>
+<!-- Row 2: Transfer Speed & Priority -->
+<div class="flex items-center justify-between text-xs">
+<div class="flex items-center space-x-2 text-neutral-500">
+<svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="font-medium text-neutral-500">Estimated Arrival</span>
+</div>
+<div class="flex items-center space-x-1.5 font-bold text-neutral-800">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span>
+<span>~ 2-3 mins</span>
+</div>
+</div>
+</section>
+</div>
+<!-- END: Main Form Body -->
+<!-- BEGIN: Action & Bottom Bar Container -->
+<footer class="px-5 pt-4 pb-2 mt-auto w-full">
+<!-- Big Black CTA Button -->
+<button class="w-full py-4 rounded-full bg-[#121316] text-white font-bold text-[16px] tracking-tight flex items-center justify-center space-x-2 shadow-lg shadow-neutral-900/15 hover:bg-neutral-800 active:scale-[0.98] transition-all" type="button">
+<span>Review Transfer</span>
+<svg class="w-4 h-4 stroke-[3] -mr-1" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<!-- Home Bar Indicator -->
+<div class="w-32 h-1 bg-neutral-300 rounded-full mx-auto mt-4 mb-0.5"></div>
+</footer>
+<!-- END: Action & Bottom Bar Container -->
+</main>
+</body></html>
