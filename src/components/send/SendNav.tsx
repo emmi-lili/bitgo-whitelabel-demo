@@ -10,9 +10,9 @@ export default function SendNav({
   showScan?: boolean
 }) {
   return (
-    <nav aria-label="Top Bar" className="flex items-center justify-between px-5 py-3">
+    <nav aria-label="Barra superior" className="flex items-center justify-between px-5 py-3">
       <button
-        aria-label="Go back"
+        aria-label="Volver"
         onClick={onBack}
         className="w-11 h-11 rounded-full bg-white flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 hover:bg-neutral-100 transition-colors active:scale-95"
         type="button"
@@ -24,7 +24,7 @@ export default function SendNav({
 
       {showScan ? (
         <button
-          aria-label="Scan QR code"
+          aria-label="Escanear código QR"
           className="w-11 h-11 rounded-full bg-white flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 hover:bg-neutral-100 transition-colors active:scale-95"
           type="button"
         >

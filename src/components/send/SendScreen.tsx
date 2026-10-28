@@ -67,10 +67,10 @@ export default function SendScreen({ onClose }: { onClose: () => void }) {
         {/* Step 1 — Form */}
         <div className="w-1/3 h-full">
           <Panel
-            header={<SendNav title="Send Money" onBack={onClose} showScan />}
+            header={<SendNav title="Enviar dinero" onBack={onClose} showScan />}
             footer={
               <PrimaryButton onClick={() => setStep('review')} disabled={amount <= 0}>
-                Review Transfer
+                Revisar transferencia
                 <ArrowRightIcon className="w-4 h-4 -mr-1" />
               </PrimaryButton>
             }
@@ -92,10 +92,10 @@ export default function SendScreen({ onClose }: { onClose: () => void }) {
         {/* Step 2 — Review */}
         <div className="w-1/3 h-full">
           <Panel
-            header={<SendNav title="Review Transfer" onBack={() => setStep('form')} />}
+            header={<SendNav title="Revisar transferencia" onBack={() => setStep('form')} />}
             footer={
               <PrimaryButton onClick={confirm} loading={sending}>
-                {sending ? 'Sending…' : 'Confirm & Send'}
+                {sending ? 'Enviando…' : 'Confirmar y enviar'}
               </PrimaryButton>
             }
           >
@@ -105,7 +105,7 @@ export default function SendScreen({ onClose }: { onClose: () => void }) {
 
         {/* Step 3 — Success */}
         <div className="w-1/3 h-full">
-          <Panel header={<div className="pt-2" />} footer={<PrimaryButton onClick={done}>Done</PrimaryButton>}>
+          <Panel header={<div className="pt-2" />} footer={<PrimaryButton onClick={done}>Listo</PrimaryButton>}>
             <SuccessView asset={asset} amount={amount} recipient={recipient} play={step === 'success'} />
           </Panel>
         </div>

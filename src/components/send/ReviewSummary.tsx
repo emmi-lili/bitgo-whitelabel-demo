@@ -31,7 +31,7 @@ export default function ReviewSummary({
     <div className="px-5 pt-2 pb-4">
       {/* Headline */}
       <div className="text-center mb-5">
-        <p className="text-[13px] font-medium text-neutral-400">You're sending</p>
+        <p className="text-[13px] font-medium text-neutral-400">Estás enviando</p>
         <div className="text-[40px] font-extrabold text-neutral-900 tracking-tight mt-1 tabular-nums">
           {formatCurrency(amount)}
         </div>
@@ -42,7 +42,7 @@ export default function ReviewSummary({
 
       {/* Details */}
       <div className="bg-white rounded-3xl px-4 analytics-card border border-gray-100 divide-y divide-gray-100">
-        <Row label="To">
+        <Row label="Para">
           {recipient && (
             <img
               src={recipient.avatar}
@@ -50,12 +50,12 @@ export default function ReviewSummary({
               className="w-5 h-5 rounded-full object-cover"
             />
           )}
-          <span className="truncate">{recipient ? recipient.name : 'Address'}</span>
+          <span className="truncate">{recipient ? recipient.name : 'Dirección'}</span>
         </Row>
-        <Row label="Address">
+        <Row label="Dirección">
           <span className="font-mono text-[12.5px] text-neutral-700">{address}</span>
         </Row>
-        <Row label="Asset">
+        <Row label="Activo">
           <span
             className={`w-5 h-5 rounded-full text-white text-[10px] font-bold flex items-center justify-center shrink-0 ${asset.badgeClass} ${asset.glyphClass ?? ''}`}
           >
@@ -66,9 +66,9 @@ export default function ReviewSummary({
             {asset.network}
           </span>
         </Row>
-        <Row label="Network">{asset.networkLabel}</Row>
-        <Row label="Network fee">{formatCurrency(asset.fee)}</Row>
-        <Row label="Arrival">{asset.arrival}</Row>
+        <Row label="Red">{asset.networkLabel}</Row>
+        <Row label="Comisión de red">{formatCurrency(asset.fee)}</Row>
+        <Row label="Llegada">{asset.arrival}</Row>
       </div>
 
       {/* Total */}

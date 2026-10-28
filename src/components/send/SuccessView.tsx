@@ -25,13 +25,15 @@ export default function SuccessView({
         </div>
       </div>
 
-      <h2 className="text-[24px] font-extrabold text-neutral-900 tracking-tight">Transfer sent!</h2>
+      <h2 className="text-[24px] font-extrabold text-neutral-900 tracking-tight">
+        ¡Transferencia enviada!
+      </h2>
       <p className="text-[14px] text-neutral-500 mt-2">
-        You sent <span className="font-bold text-neutral-900">{formatCurrency(amount)}</span>
+        Enviaste <span className="font-bold text-neutral-900">{formatCurrency(amount)}</span>
         {recipient && (
           <>
             {' '}
-            to <span className="font-bold text-neutral-900">{recipient.name}</span>
+            a <span className="font-bold text-neutral-900">{recipient.name}</span>
           </>
         )}
       </p>
