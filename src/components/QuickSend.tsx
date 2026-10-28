@@ -7,9 +7,9 @@ export default function QuickSend() {
     <section className="pt-2 pb-4">
       {/* Section Title & Plus Action */}
       <div className="px-6 flex items-center justify-between mb-3">
-        <h3 className="text-[17px] font-bold text-[#141518] tracking-tight">Quick Send</h3>
+        <h3 className="text-[17px] font-bold text-[#141518] tracking-tight">Envío rápido</h3>
         <button
-          aria-label="Add recipient"
+          aria-label="Agregar destinatario"
           className="w-7 h-7 rounded-full bg-[#121316] text-white flex items-center justify-center hover:bg-neutral-800 transition active:scale-90"
           type="button"
         >

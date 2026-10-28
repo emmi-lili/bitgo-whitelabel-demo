@@ -6,7 +6,7 @@ export default function WalletHeader() {
     <header className="pt-1 px-6 pb-2 flex items-center justify-between">
       {/* Wallet Switcher Dropdown */}
       <button
-        aria-label="Select Wallet"
+        aria-label="Seleccionar cartera"
         className="inline-flex items-center space-x-1.5 text-base font-semibold text-neutral-800 tracking-tight rounded-xl px-1 -mx-1 py-0.5 hover:opacity-80 active:scale-[0.98] transition"
         type="button"
       >
