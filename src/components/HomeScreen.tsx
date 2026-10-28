@@ -1,6 +1,4 @@
-import type { Screen } from '../navigation'
-import AppScreen from './AppScreen'
-import TabBar from './TabBar'
+import Panel from './Panel'
 import WalletHeader from './WalletHeader'
 import BalanceHero from './BalanceHero'
 import ActionButtons from './ActionButtons'
@@ -8,24 +6,14 @@ import ReferralBanner from './ReferralBanner'
 import QuickSend from './QuickSend'
 import Transactions from './Transactions'
 
-export default function HomeScreen({
-  onNavigate,
-  enterClass,
-}: {
-  onNavigate: (screen: Screen) => void
-  enterClass?: string
-}) {
+export default function HomeScreen({ onSend }: { onSend: () => void }) {
   return (
-    <AppScreen
-      enterClass={enterClass}
-      header={<WalletHeader />}
-      dock={<TabBar active="home" onNavigate={onNavigate} />}
-    >
+    <Panel header={<WalletHeader />}>
       <BalanceHero />
-      <ActionButtons />
+      <ActionButtons onSend={onSend} />
       <ReferralBanner />
       <QuickSend />
       <Transactions />
-    </AppScreen>
+    </Panel>
   )
 }

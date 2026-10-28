@@ -1,11 +1,12 @@
 import { SendIcon, ReceiveIcon, BuyIcon } from './icons'
 
-export default function ActionButtons() {
+export default function ActionButtons({ onSend }: { onSend: () => void }) {
   return (
     <section className="px-6 py-2">
       <div className="grid grid-cols-3 gap-2.5">
         {/* Send (Primary) */}
         <button
+          onClick={onSend}
           className="h-12 bg-[#121316] text-white rounded-full flex items-center justify-center space-x-2 shadow-sm hover:bg-neutral-800 active:scale-95 transition-all"
           type="button"
         >

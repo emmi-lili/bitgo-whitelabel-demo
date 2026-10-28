@@ -36,12 +36,16 @@ export default function TabBar({
   const [toast, setToast] = useState(false)
   const timer = useRef<number | undefined>(undefined)
 
+  const activeIndex = Math.max(
+    0,
+    TABS.findIndex((t) => t.screen === active),
+  )
+
   const handle = (tab: Tab) => {
     if (tab.screen) {
       onNavigate(tab.screen)
       return
     }
-    // Honest feedback for destinations that don't exist yet.
     setToast(true)
     if (timer.current) window.clearTimeout(timer.current)
     timer.current = window.setTimeout(() => setToast(false), 1600)
@@ -57,30 +61,34 @@ export default function TabBar({
           Coming soon
         </div>
       )}
-      <div className="h-[62px] bg-[#E9ECF1]/90 backdrop-blur-md rounded-full px-3 dock-shadow flex items-center justify-between border border-white/60">
+      <div className="relative h-[62px] bg-[#E9ECF1]/90 backdrop-blur-md rounded-full dock-shadow border border-white/60 flex">
+        {/* Sliding active indicator */}
+        <div
+          className="absolute inset-y-0 w-1/5 flex items-center justify-center pointer-events-none ease-[var(--screen-ease)]"
+          style={{
+            transform: `translateX(${activeIndex * 100}%)`,
+            transitionProperty: 'transform',
+            transitionDuration: '350ms',
+          }}
+        >
+          <span className="w-11 h-11 bg-[#121316] rounded-full shadow-md" />
+        </div>
+
         {TABS.map((tab) => {
           const isActive = tab.screen === active
-          if (isActive) {
-            return (
-              <button
-                key={tab.key}
-                aria-label={tab.label}
-                aria-current="page"
-                className="w-11 h-11 bg-[#121316] text-white rounded-full flex items-center justify-center shadow-md active:scale-95 transition"
-                type="button"
-              >
-                <tab.Icon className={tab.iconClass} />
-              </button>
-            )
-          }
           const built = Boolean(tab.screen)
           return (
             <button
               key={tab.key}
               aria-label={built ? tab.label : `${tab.label} (coming soon)`}
+              aria-current={isActive ? 'page' : undefined}
               onClick={() => handle(tab)}
-              className={`w-11 h-11 flex items-center justify-center rounded-full transition active:scale-90 ${
-                built ? 'text-neutral-500 hover:text-neutral-900' : 'text-neutral-400 opacity-50 hover:opacity-70'
+              className={`relative z-10 flex-1 flex items-center justify-center transition-colors duration-200 active:scale-90 ${
+                isActive
+                  ? 'text-white'
+                  : built
+                    ? 'text-neutral-500 hover:text-neutral-900'
+                    : 'text-neutral-400 opacity-50 hover:opacity-70'
               }`}
               type="button"
             >

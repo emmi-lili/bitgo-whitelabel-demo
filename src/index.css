@@ -39,32 +39,32 @@
   overscroll-behavior: contain;
 }
 
-/* App-like screen transitions (directional push) */
-@keyframes screenInRight {
-  from {
+/*
+ * Shared motion for the single-surface shell: Home/Analytics live on one
+ * sliding track and Send slides over as an overlay, all driven by transforms
+ * so nothing remounts and navigation glides as one continuous surface.
+ */
+:root {
+  --screen-ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --screen-dur: 450ms;
+}
+
+/* Success checkmark pop (transfer sent) */
+@keyframes successPop {
+  0% {
+    transform: scale(0.6);
     opacity: 0;
-    transform: translateX(6%);
   }
-  to {
+  60% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
     opacity: 1;
-    transform: translateX(0);
   }
 }
-@keyframes screenInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-6%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-.anim-forward {
-  animation: screenInRight 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) both;
-}
-.anim-back {
-  animation: screenInLeft 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+.success-pop {
+  animation: successPop 0.5s var(--screen-ease) both;
 }
 
 /* Keyboard focus ring for all interactive controls (no ring on pointer taps) */

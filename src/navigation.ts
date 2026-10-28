@@ -1,2 +1,2 @@
-/** Screens the mockup can navigate between via the dock / back button. */
-export type Screen = 'home' | 'analytics'
+/** Screens the mockup can navigate between via the dock, buttons, or back. */
+export type Screen = 'home' | 'analytics' | 'send'
