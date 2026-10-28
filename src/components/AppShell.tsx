@@ -4,6 +4,8 @@ import TabBar from './TabBar'
 import HomeScreen from './HomeScreen'
 import AnalyticsScreen from './analytics/AnalyticsScreen'
 import SendScreen from './send/SendScreen'
+import ReceiveScreen from './receive/ReceiveScreen'
+import BuyScreen from './buy/BuyScreen'
 
 /** Horizontal position of each tab panel on the shared track. */
 const TRACK_INDEX = { home: 0, analytics: 1 } as const
@@ -18,13 +20,25 @@ type Tab = keyof typeof TRACK_INDEX
 export default function AppShell() {
   const [tab, setTab] = useState<Tab>('home')
   const [sendOpen, setSendOpen] = useState(false)
+  const [receiveOpen, setReceiveOpen] = useState(false)
+  const [buyOpen, setBuyOpen] = useState(false)
 
   const navigate = (screen: Screen) => {
     if (screen === 'send') {
       setSendOpen(true)
       return
     }
+    if (screen === 'receive') {
+      setReceiveOpen(true)
+      return
+    }
+    if (screen === 'buy') {
+      setBuyOpen(true)
+      return
+    }
     setSendOpen(false)
+    setReceiveOpen(false)
+    setBuyOpen(false)
     setTab(screen)
   }
 
@@ -47,7 +61,11 @@ export default function AppShell() {
             }}
           >
             <div className="w-1/2 h-full">
-              <HomeScreen onSend={() => setSendOpen(true)} />
+              <HomeScreen
+                onSend={() => setSendOpen(true)}
+                onReceive={() => setReceiveOpen(true)}
+                onBuy={() => setBuyOpen(true)}
+              />
             </div>
             <div className="w-1/2 h-full">
               <AnalyticsScreen />
@@ -70,6 +88,34 @@ export default function AppShell() {
           <div className="absolute -top-24 -left-20 w-72 h-72 bg-purple-200/40 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute -top-24 -right-20 w-72 h-72 bg-fuchsia-100/50 rounded-full blur-3xl pointer-events-none" />
           <SendScreen onClose={() => setSendOpen(false)} />
+          <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-32 h-1 bg-neutral-400/70 rounded-full z-50 pointer-events-none" />
+        </div>
+
+        {/* Receive: slides over everything */}
+        <div
+          className={`absolute inset-0 z-[60] bg-[#F4F5F8] overflow-hidden ease-[var(--screen-ease)] ${
+            receiveOpen ? 'translate-x-0' : 'translate-x-full pointer-events-none'
+          }`}
+          style={{ transitionProperty: 'transform', transitionDuration: 'var(--screen-dur)' }}
+          aria-hidden={!receiveOpen}
+        >
+          <div className="absolute -top-24 -left-20 w-72 h-72 bg-purple-200/40 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -top-24 -right-20 w-72 h-72 bg-fuchsia-100/50 rounded-full blur-3xl pointer-events-none" />
+          <ReceiveScreen onClose={() => setReceiveOpen(false)} />
+          <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-32 h-1 bg-neutral-400/70 rounded-full z-50 pointer-events-none" />
+        </div>
+
+        {/* Buy: slides over everything */}
+        <div
+          className={`absolute inset-0 z-[60] bg-[#F4F5F8] overflow-hidden ease-[var(--screen-ease)] ${
+            buyOpen ? 'translate-x-0' : 'translate-x-full pointer-events-none'
+          }`}
+          style={{ transitionProperty: 'transform', transitionDuration: 'var(--screen-dur)' }}
+          aria-hidden={!buyOpen}
+        >
+          <div className="absolute -top-24 -left-20 w-72 h-72 bg-purple-200/40 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -top-24 -right-20 w-72 h-72 bg-fuchsia-100/50 rounded-full blur-3xl pointer-events-none" />
+          <BuyScreen onClose={() => setBuyOpen(false)} />
           <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-32 h-1 bg-neutral-400/70 rounded-full z-50 pointer-events-none" />
         </div>
       </div>
